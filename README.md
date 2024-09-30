@@ -15,14 +15,12 @@ katedra -> id | id fakulty | názov katedry | stupne štúdia, ktoré katedra po
 
 stupeň štúdia -> id | názov stupňa štúdia (bakalárske, inžinierske...)
 
-študijný odbor -> id | názov študijného odboru
+študijný odbor -> id | stupeň štúdia id | katedra id | názov študijného odboru
 
-študijný predmet -> id | používateľ id | študijný odbor id
+študijný predmet -> id | katedra id | názov predmetu | skratka predmetu
 
-používateľský predmet -> id | používateľ id
+kategória -> id | id tvorcu kategórie | názov kategórie
 
-user_video (verejné na stránke iba pod používateľským profilom)  -> id | id používateľa (tvorcu videa) | id používateľského predmetu | videolink | názov videa | dĺžka videa 
-
-admin_video (verejné na stránke pod predmetmi a hlavnými kategóriami) -> id | id používateľa (tvorcu videa) | id používateľského predmetu | videolink | názov videa | dĺžka videa
+video -> id | 
 # Pavučínová technológia zobrazovania
 Technológia načítavania dopredu plus web sockety
