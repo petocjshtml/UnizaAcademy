@@ -1,5 +1,5 @@
 # Backend
-Úložisko pre videá - platforma YouTube (kategógia - nezaradené (bez reklám) - nesmú byť public)
+Úložisko pre videá - platforma YouTube (kategória - nezaradené (bez reklám) - nesmú byť public)
 # Databáza
 No Sql - Mongo db
 # Backend technológia
