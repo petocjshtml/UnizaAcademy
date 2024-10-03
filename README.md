@@ -25,6 +25,8 @@ kategória -> id | id predmetu | id tvorcu kategórie | názov kategórie
 
 video -> id | id používatela | id predmetu | id kategórie | názov videa | odkaz na video | dostupnosť (public - vidia aj nepríhlasení, protected - vidia iba prihlásení, private - vidí iba používateľ vo svojom profile)
 
+_____ Pridať redis cloud cache vrstvu !!!! ____
+
 (ak je používatel admin, tak bude sa video)
 # Pavučínová technológia zobrazovania
 Technológia načítavania dopredu (plus web sockety - volitelné)
