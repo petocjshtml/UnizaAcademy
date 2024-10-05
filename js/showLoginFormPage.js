@@ -16,11 +16,20 @@ function showLoginFormPage()
             </div>
              <h5 class="mb-4">
              Nemáte u nás konto?  
-             <a class="navbar-brand" href="#" onclick="showRegistrationForm()">Zaregistrujte sa ! </a>
+             <a class="navbar-brand" href="#" onclick="showRegistrationFormPage()">Zaregistrujte sa ! </a>
              </h5>
-            <button type="submit" class="btn btn-danger">Prihlásiť sa</button>
+            <button type="submit" onclick="showLoginLoadingIcon()" class="btn btn-danger">Prihlásiť sa</button>
+            <img id="loginLoadingElement" src="images/loading.gif" alt="Loading" style="width: 30px; margin-left: 10px; display:none;">
         </form>
         </div>
     `;
     closeMenu();
+}
+
+function showLoginLoadingIcon() {
+    document.getElementById("loginLoadingElement").style.display="revert";    
+}
+
+function hideLoginLoadingIcon() {
+    document.getElementById("loginLoadingElement").style.display="none";    
 }
