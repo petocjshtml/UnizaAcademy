@@ -28,6 +28,7 @@ function showRegistrationFormPage()
         </div>
     `;
     closeMenu();
+    enableFooter(false);
 }
 
 function showRegistrationLoadingIcon() {

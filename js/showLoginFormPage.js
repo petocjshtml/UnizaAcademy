@@ -24,6 +24,7 @@ function showLoginFormPage()
         </div>
     `;
     closeMenu();
+    enableFooter(false);
 }
 
 function showLoginLoadingIcon() {

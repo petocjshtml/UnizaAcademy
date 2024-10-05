@@ -6,3 +6,5 @@ function closeMenu() {
       bsCollapse.hide();
     }
 }
+
+showMainPage();

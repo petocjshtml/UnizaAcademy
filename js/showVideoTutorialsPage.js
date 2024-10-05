@@ -6,4 +6,5 @@ function showVideoTutorialsPage()
     root.innerHTML=`
     `;
     closeMenu();
+    enableFooter(false);
 }
