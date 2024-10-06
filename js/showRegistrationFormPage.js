@@ -55,7 +55,7 @@ function getUserAgreementModalCode() {
             <div class="modal-body" style="color:black;">
                 1. Ak máte návrh na zdielanie nového videa na stránke, kontaktujte správcu. <br>
                 2. Neprihlásení používatelia nevidia všetky videá, iba tie verejné. <br>
-                3. Vytvorenie konta je možné iba študentom žilinskej univerzity. <br>
+                3. Vytvorenie konta je možné iba študentom Žilinskej Univerzity. <br>
                 4. Vedlajšie informácie o videu (počet zhliadnutí, počet likov) 
                 nemusia byť vždy aktuálne, dáta sa ukladajú spolu s dátumom vloženia videa na stránku. <br>
                 5. V prípade nejasnosti a ďalšej potreby kontaktujte administrátora stránky.

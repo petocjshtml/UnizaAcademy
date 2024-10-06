@@ -1,5 +1,6 @@
 function showMainPage()
 {
+    showHeader();
     const page_info = document.getElementById("page-info");
     const root = document.getElementById("root");
     page_info.innerHTML="Uniza Academy";
@@ -14,6 +15,37 @@ function showMainPage()
     `;
     closeMenu();
     enableFooter(true);
+}
+
+function showHeader()
+{
+    const header = document.getElementById("header");
+    header.innerHTML= `
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fs-5 ">
+    <div class="container-fluid">
+      <a class="navbar-brand" onclick="showMainPage()" href="#"><img src="images/logo.png" style="width:350px;" alt="uniza logo" ></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active text-white ms-3 " aria-current="page" onclick="showAboutUsPage()" href="#">O nás</a>
+          <a class="nav-link active text-white ms-3 " aria-current="page" onclick="showVideoTutorialsPage()" href="#">Videotutoriály</a>
+
+        </div>
+        <!-- Položky napravo -->
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link active text-white ms-3 " href="#" onclick="showLoginFormPage()" tabindex="-1" aria-disabled="true">Prihlásenie</a>
+          <a class="nav-link active text-white ms-3 " href="#" onclick="showRegistrationFormPage()" tabindex="-1" aria-disabled="true">Registrácia</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div id="page-info" class="fs-1 text-center text-white bg-danger">
+      Uniza Academy
+  </div>
+  `;
 }
 
 function getImproveYourSkillsHtml()
@@ -142,3 +174,15 @@ function getFiveBenefitsOfVideoLearningHtml()
     `;
 }
 
+//pri rozbalenom navbare pri malom rozlíšení rozbalené menu opäť zavrie
+function closeMenu() {
+  if (window.matchMedia("(max-width: 991.98px)").matches) {
+    var navbarCollapse = document.getElementById('navbarNavAltMarkup');
+    
+    // Skontroluj, či je menu otvorené (má triedu 'show')
+    if (navbarCollapse.classList.contains('show')) {
+      var bsCollapse = new bootstrap.Collapse(navbarCollapse);
+      bsCollapse.hide();
+    }
+  }
+}

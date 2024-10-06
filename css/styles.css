@@ -1,16 +1,20 @@
+/* odsadenie z vrchu kôli pevnému headeru na základe bootstrap 
+triedy fixed-top pre scrollovací obsah, aby bol počiatočný obsah viditelný */
 body {
   padding-top: 180px; 
 }
 
+/* základné orámovanie tématického elementu */
 .card {
     border: 2px solid white;
     background-color: #212529;
     color:white;
     border-radius: 25px;
     padding:50px;
-  }
+}
 
-   .icon-circle {
+/* v časti hlavnej stránky, kde je zobrazených 12 obrázkov študijných oblastí */
+.icon-circle {
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -24,5 +28,5 @@ body {
     text-align: center;
     margin-top: 10px;
     font-weight: 500;
-    color: white; /* Biela farba textu */
+    color: white; 
 }
