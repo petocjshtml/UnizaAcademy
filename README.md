@@ -4,16 +4,15 @@
 No Sql - Mongo db
 # Backend technológia
 Node js, práca s db - mongoose
+# Proces prihlásenia a autentifikácia
+frontend endpoint overí platnosť emailu a hesla s údajmi v databáze, ak sú platné, vytvorí tzv. jwt token, na ktorého vytvorenie použije tzv. "bezpečnostný kľúč", ktorý je čitatelný iba na backende a údaje používatela (json objekt), token má samostatnú expiračnú hodnotu a odhlásením sa token zničí, token sa má posielať následne pri každej neverejnej požiadávke a backend overuje pri požiadávke jeho platnosť,
+ak je platný, vykoná požiadávku, inák odhlasí používatela (v prípade expirácie)
 # Plánované objekty v db
-používatel -> id | meno a priezvisko | nickname | email | heslo | isAdmin 
-
-žiadosť stať sa administrátorom -> id žiadosti | id používatela | je potvrdená
-
-login -> id | čas a dátum prihlásenia | token (zakódované user info)
+používatel -> id | nickname | email | heslo | isAdmin 
 
 fakulta -> id | názov fakulty
 
-katedra -> id | id fakulty | názov katedry | stupne štúdia, ktoré katedra poskytuje (pole id)
+katedra -> id | id fakulty | názov katedry
 
 stupeň štúdia -> id | názov stupňa štúdia (bakalárske, inžinierske...)
 
@@ -21,9 +20,9 @@ stupeň štúdia -> id | názov stupňa štúdia (bakalárske, inžinierske...)
 
 študijný predmet -> id | katedra id | názov predmetu | skratka predmetu
 
-kategória -> id | id predmetu | id tvorcu kategórie | názov kategórie
+priečinok -> id | id predmetu | id tvorcu priečinku | názov priečinku
 
-video -> id | id používatela | id predmetu | id kategórie | názov videa | odkaz na video | dostupnosť (public - vidia aj nepríhlasení, protected - vidia iba prihlásení, private - vidí iba používateľ vo svojom profile)
+videotutoriál -> id | id tvorcu videotutoriálu | id predmetu | id priečinku | názov videotutoriálu | odkaz na videotutoriál(YouTube) | dostupnosť (public - vidí verejnosť, protected - vidí iba fakulta) | odkaz na obrázok videotutoriálu (thumbnail), čas (dĺžka) videotutoriálu, počet zhliadnutí videotutoriálu (na YouTube), počet likov videotutoriálu (na YouTube)
 
 _____ Pridať redis cloud cache vrstvu !!!! ____
 
@@ -33,8 +32,6 @@ Technológia načítavania dopredu (plus web sockety - volitelné)
 1. načítanie stránky
 2. načítanie dát na pozadí pre všetky podstránky (ktoré niesú otvorené, ale sú dostupné s danej stránky)
 # Endpointy
-homepage -> / (get)
-login -> /login -> (post) -> nickname or email, password -> response - succesfull -> token | bad credentials -> message | unknown credentials -> registration offer
-register -> /register -> (post) -> meno a priezvisko, nickname, email, heslo -> succesfull -> login page redirect | nickname or email exists -> message
+
 
 
