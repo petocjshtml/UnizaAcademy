@@ -21,9 +21,9 @@ function showHeader()
 {
     const header = document.getElementById("header");
     header.innerHTML= `
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fs-5 ">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-kmikt-blue fs-5 ">
     <div class="container-fluid">
-      <a class="navbar-brand" onclick="showMainPage()" href="#"><img src="images/logo.png" style="width:350px;" alt="uniza logo" ></a>
+      <a class="navbar-brand" onclick="showMainPage()" href="#"><img src="images/logo.svg" style="width:380px;" alt="uniza logo" ></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -42,7 +42,7 @@ function showHeader()
     </div>
   </nav>
 
-  <div id="page-info" class="fs-1 text-center text-white bg-danger">
+  <div id="page-info" class="fs-1 text-center text-white bg-feit-orange">
       Uniza Academy
   </div>
   `;
@@ -52,7 +52,7 @@ function getImproveYourSkillsHtml()
 {
     return`
     <div class="container my-5 card">
-        <div class="row align-items-center text-white">
+        <div class="row align-items-center">
             <div class="col-md-6 order-1 order-md-2 text-center">
               <img src="images/programming.svg" alt="Uniza Academy" class="img-fluid mb-4">
             </div>
@@ -84,55 +84,31 @@ function getAllStudyFieldsHtml()
 {
     return`
     <div class="container my-5 card">
-        <h1 class="display-5 fw-bold mb-5 text-center">Poskytujeme videá pre každú fakultu !</h1>
+        <h1 class="display-5 fw-bold mb-5 text-center">Témy hlavných študijných odborov</h1>
         <div class="row text-center justify-content-center mt-4">
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_fakult/doprava_v1.png" alt="Doprava" class="icon-circle">
-                <div class="icon-text">Doprava</div>
+            <div class="col-md-4 col-sm-6 col-6 mb-5">
+                <img src="images/mriezka_odborov/feit/web_automatizacia@4x.png" alt="Automatizácia" class="icon-circle">
+                <div class="icon-text fs-4">Automatizácia</div>
             </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_fakult/strojnictvo_v1.png" alt="Strojárstvo" class="icon-circle">
-                <div class="icon-text">Strojárstvo</div>
+            <div class="col-md-4 col-sm-6 col-6 mb-5">
+                <img src="images/mriezka_odborov/feit/web_biomedicineske_inzinierstvo@4x.png" alt="Biomedicínske inžinierstvo" class="icon-circle">
+                <div class="icon-text fs-4">Biomedicínske inžinierstvo</div>
             </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_fakult/elektro_v1.png" alt="Elektrotechnika" class="icon-circle">
-                <div class="icon-text">Elektrotechnika</div>
+            <div class="col-md-4 col-sm-6 col-6 mb-5">
+                <img src="images/mriezka_odborov/feit/web_elektrotechnika@4x.png" alt="Elektrotechnika" class="icon-circle">
+                <div class="icon-text fs-4">Elektrotechnika</div>
             </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_fakult/stavebnictvo_v1.png" alt="Stavebníctvo" class="icon-circle">
-                <div class="icon-text">Stavebníctvo</div>
+            <div class="col-md-4 col-sm-6 col-6 mb-5">
+                <img src="images/mriezka_odborov/feit/web_multimedialne_technologie@4x.png" alt="Multimediálne technológie" class="icon-circle">
+                <div class="icon-text fs-4">Multimediálne technológie</div>
             </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_fakult/informatika_v1.png" alt="Informatika" class="icon-circle">
-                <div class="icon-text">Informatika</div>
+            <div class="col-md-4 col-sm-6 col-6 mb-5">
+                <img src="images/mriezka_odborov/feit/web_optoelektronika@4x.png" alt="Elektrooptika" class="icon-circle">
+                <div class="icon-text fs-4">Elektrooptika</div>
             </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_fakult/multimedia_v1.png" alt="Mediálne a komunikačné štúdiá" class="icon-circle">
-                <div class="icon-text">Mediálne a komunikačné štúdiá</div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-              <img src="images/mriezka_fakult/geodezia_v1.png" alt="Geodézia a kartografia" class="icon-circle">
-              <div class="icon-text">Geodézia a kartografia</div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-              <img src="images/mriezka_fakult/ekonomika_v1.png" alt="Ekonómia a manažment" class="icon-circle">
-              <div class="icon-text">Ekonómia a manažment</div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-              <img src="images/mriezka_fakult/bezpecnost_v1.png" alt="Bezpečnostné vedy" class="icon-circle">
-              <div class="icon-text">Bezpečnostné vedy</div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-              <img src="images/mriezka_fakult/humanizmus_v1.png" alt="Učiteľstvo a pedagogické vedy" class="icon-circle">
-              <div class="icon-text">Učiteľstvo a pedagogické vedy</div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-              <img src="images/mriezka_fakult/kybernetika_v1.png" alt="Kybernetika" class="icon-circle">
-              <div class="icon-text">Kybernetika</div>
-            </div>
-            <div class="col-md-3 col-sm-6 col-6 mb-5">
-              <img src="images/mriezka_fakult/ochrana_v1.png" alt="Ekologické a environmentálne vedy" class="icon-circle">
-              <div class="icon-text">Ekologické a environmentálne vedy</div>
+            <div class="col-md-4 col-sm-6 col-6 mb-5">
+                <img src="images/mriezka_odborov/feit/web_telekomunikacie@4x.png" alt="Komunikačné a informačné technológie" class="icon-circle">
+                <div class="icon-text fs-4">Komunikačné a informačné technológie</div>
             </div>
         </div>
     </div>
@@ -143,21 +119,20 @@ function getYoutubeTeamWorkHtml()
 {
     return`
     <div class="container my-5 card">
-          <div class="row align-items-center text-white">
+          <div class="row align-items-center">
               <div class="col-md-6 order-1 order-md-1 text-center">
                   <img src="images/video-icon.svg" alt="Uniza Academy" class="img-fluid mb-4">
               </div>
               <div class="col-md-6 order-2 order-md-2">
-                 <h1 class="display-5 fw-bold py-1">Spolupráca s YouTubom</h1>
+                 <h1 class="display-5 fw-bold py-1">YouTube ako úložisko pre naše videá</h1>
                   <p class="lead">
-                    Uniza Academy je moderná platforma, ktorá študentom poskytuje prístup k širokej škále videotutoriálov.
-                    Naša snaha o efektívnu a kvalitnú výučbu nás viedla k využívaniu YouTube ako cloudového úložiska pre
-                    naše vzdelávacie materiály. Tento nástroj nám umožňuje nielen rýchle nahrávanie a sprístupnenie obsahu,
-                    ale aj zabezpečenie jeho plynulého prehrávania v rôznej kvalite, čo študentom zaručuje bezproblémový prístup
-                    k lekciám z akéhokoľvek zariadenia. Vďaka spolupráci s YouTubom môžeme efektívne spravovať a šíriť náš obsah
-                    na globálnej úrovni. YouTube nám tak poskytuje robustný základ pre realizáciu našej vízie a neustále zlepšovanie
-                    vzdelávacieho procesu pre všetkých našich študentov. Naším cieľom je študentom sprístupniť tie najlepšie 
-                    možné nástroje na ich vzdelávanie. Youtube ako steamovacia služba nám ich zaručene poskytuje.
+                    Uniza Academy využíva YouTube ako spoľahlivé cloudové úložisko pre naše videotutoriály,
+                    ktoré nám poskytuje výhodu rýchleho a efektívneho prenosu dát a zaručuje plynulé prehrávanie
+                    videí pre študentov bez ohľadu na ich polohu či zariadenie. Vďaka jeho distribuovanej
+                    infraštruktúre môžeme zabezpečiť okamžitú dostupnosť obsahu s vysokou kvalitou, k čomu
+                    taktiež prispieva zabudovaná funkcionalita adaptívneho streamingu. Tento prístup nám 
+                    umožňuje plne sa sústrediť na tvorbu vzdelávacieho obsahu, zatiaľ čo YouTube sa stará 
+                    o jeho efektívne zdielanie.
                   </p>
               </div>
           </div>

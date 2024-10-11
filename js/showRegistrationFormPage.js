@@ -47,12 +47,12 @@ function getUserAgreementModalCode() {
         webstránky <b>Uniza Academy.</b></label>
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content bg-kmikt-blue">
             <div class="modal-header">
-                <h5 class="modal-title" style="color:black;" id="staticBackdropLabel">Podmienky používania Uniza Academy</h5>
+                <h5 class="modal-title" style="color:white;" id="staticBackdropLabel">Podmienky používania Uniza Academy</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" style="color:black;">
+            <div class="modal-body" style="color:white;">
                 1. Ak máte návrh na zdielanie nového videa na stránke, kontaktujte správcu. <br>
                 2. Neprihlásení používatelia nevidia všetky videá, iba tie verejné. <br>
                 3. Vytvorenie konta je možné iba študentom Žilinskej Univerzity. <br>
@@ -62,7 +62,7 @@ function getUserAgreementModalCode() {
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavrieť</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zavrieť</button>
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Rozumiem</button>
             </div>
             </div>
