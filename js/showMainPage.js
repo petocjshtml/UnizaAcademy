@@ -1,9 +1,9 @@
 function showMainPage()
 {
-    showHeader();
-    const page_info = document.getElementById("page-info");
+    isUserLoggedIn() ? showHeaderForLoggedInUser(getUserFromLS()) : showHeader();
+    //const page_info = document.getElementById("page-info");
     const root = document.getElementById("root");
-    page_info.innerHTML="Uniza Academy";
+    //page_info.innerHTML="Uniza Academy";
     // Uniza Academy
     root.innerHTML=
     `
@@ -48,6 +48,60 @@ function showHeader()
   `;
 }
 
+function showHeaderForLoggedInUser(userFromLS)
+{
+    const header = document.getElementById("header");
+    const isAdmin = userFromLS.is_admin;
+    const email = userFromLS.email;
+    const nickname = isAdmin ? userFromLS.nickname + " (admin)" : userFromLS.nickname;
+    // Podmienky pre výber správnych názvov v závislosti od toho, či sa jedná o bežného používateľa alebo o administrátora
+    const videoTutorialsOnclick = isAdmin ? "showAdminVideoTutorialsPage()" : "showUserVideoTutorialsPage()";
+    const aboutUsOrUsersAdminOnclick = isAdmin ? "showAdminUsersPage()" : "showAboutUsPage()";
+    const secondNavMenuLinkName = isAdmin ? "Používatelia" : "O nás";
+
+    header.innerHTML= `
+    <nav class="navbar navbar-expand-lg navbar-dark bg-kmikt-blue fs-5 ">
+    <div class="container-fluid">
+      <a class="navbar-brand" onclick="showMainPage()" href="#"><img src="images/logo.svg" style="width:380px;" alt="uniza logo" ></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active text-white ms-3 " aria-current="page" onclick="${aboutUsOrUsersAdminOnclick}" href="#">${secondNavMenuLinkName}</a>
+          <a class="nav-link active text-white ms-3 " aria-current="page" onclick="${videoTutorialsOnclick}" href="#">Videotutoriály</a>
+        </div>
+        <!-- Položky napravo -->
+        <div class="navbar-nav ms-auto">
+         <!-- Dropdown pre profil -->
+          <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active text-white ms-3" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              ${nickname}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end bg-kmikt-blue" aria-labelledby="profileDropdown">
+              <li><a class="dropdown-item text-white" onclick='showUserProfilePage(${JSON.stringify(userFromLS)})' href="#">Profil</a></li>
+              <li><a class="dropdown-item text-white" onclick='showUserAccountSettings(${JSON.stringify(userFromLS)})' href="#">Nastavenia účtu</a></li>
+              
+            </ul>
+          </div>
+          <a class="nav-link active text-white ms-3 " href="#" onclick="#" tabindex="-1" aria-disabled="true">Odhlásiť sa</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div id="page-info" class="fs-1 text-center text-white bg-feit-orange">
+    Uniza Academy
+  </div>
+  `;
+}
+
+
+
+
+
+
+
 function getImproveYourSkillsHtml()
 {
     return`
@@ -84,7 +138,7 @@ function getAllStudyFieldsHtml()
 {
     return`
     <div class="container my-5 card">
-        <h1 class="display-5 fw-bold mb-5 text-center">Témy hlavných študijných odborov</h1>
+        <h1 class="display-5 fw-bold mb-5 text-center">Túto sekciu nahradiť niečim iným probably</h1>
         <div class="row text-center justify-content-center mt-4">
             <div class="col-md-4 col-sm-6 col-6 mb-5">
                 <img src="images/mriezka_odborov/feit/web_automatizacia@4x.png" alt="Automatizácia" class="icon-circle">

@@ -68,4 +68,11 @@ základné orámovanie tématického elementu
     color: white !important; /* Zachová bielu farbu textu pri hover */
 }
 
+/* user profile dropdown - aby bol text čitateľný */
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item.active {
+    background-color: red; 
+}
+
 
