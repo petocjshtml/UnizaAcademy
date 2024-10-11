@@ -1,0 +1,78 @@
+/* odsadenie z vrchu kôli pevnému headeru na základe bootstrap 
+triedy fixed-top pre scrollovací obsah, aby bol počiatočný obsah viditelný */
+body {
+  padding-top: 180px; 
+}
+
+/* 
+základné orámovanie tématického elementu 
+//bootstrap bg light - #f8f9fa;  
+*/
+.card {
+    background-color: #143956; 
+    color:white;
+    border-radius: 25px;
+    padding:50px;
+}
+
+/* v časti hlavnej stránky, kde je zobrazených 12 obrázkov študijných oblastí */
+.icon-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #f37429;
+    padding: 15px;
+    border: 2px solid white; 
+}
+
+.icon-text {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+/* uniza farby */
+.bg-kmikt-blue {
+    background-color: #143956;
+}
+
+.bg-feit-orange {
+    background-color: #f37429;
+}
+
+.btn.btn-danger {
+    background-color: #f37429;
+    border-color: #f37429;
+}
+
+.btn.btn-danger:hover {
+    background-color: #d8641b; /* Tmavšia verzia pre hover efekt */
+    border-color: #d8641b;
+}
+
+/* tabulka bs sekcia about us */
+.table-transparent {
+    background-color: transparent !important;
+    border: 1px solid white;
+    color: white;
+}
+
+.table-transparent th,
+.table-transparent td {
+    border: 1px solid white !important;
+}
+
+.table-transparent tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Jemný biely odtieň na pozadí pri hover */
+    color: white !important; /* Zachová bielu farbu textu pri hover */
+}
+
+/* user profile dropdown - aby bol text čitateľný */
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item.active {
+    background-color: red; 
+}
+
+
