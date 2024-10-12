@@ -84,7 +84,7 @@ function showHeaderForLoggedInUser(userFromLS)
               
             </ul>
           </div>
-          <a class="nav-link active text-white ms-3 " href="#" onclick="#" tabindex="-1" aria-disabled="true">Odhlásiť sa</a>
+          <a class="nav-link active text-white ms-3 " href="#" onclick="logOutUser()" tabindex="-1" aria-disabled="true">Odhlásiť sa</a>
         </div>
       </div>
     </div>
@@ -96,10 +96,10 @@ function showHeaderForLoggedInUser(userFromLS)
   `;
 }
 
-
-
-
-
+function logOutUser(){
+  vymazatZLocalStorage("user");
+  showMainPage();
+}
 
 
 function getImproveYourSkillsHtml()

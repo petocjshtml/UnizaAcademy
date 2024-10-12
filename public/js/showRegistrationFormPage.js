@@ -5,14 +5,14 @@ function showRegistrationFormPage()
     page_info.innerHTML="Registračný formulár";
     root.innerHTML=`
         <div class="container mt-5 card">
-        <div id="registrationFormMessage" style="color:red;"></div>
+        
         <form id="registrationForm" onsubmit="registerUser(event)">
             <div class="mb-3">
-                <label for="email" class="form-label">Študenský email</label>
+                <label for="email" class="form-label">Študenský email &nbsp;&nbsp;&nbsp; <span id="registrationFormEmailMessage" style="color:#f37429;"></span></label>
                 <input type="email" value="branomrkvicka@stud.uniza.sk" name="email" class="form-control" minlength="3" maxlength="50" placeholder="Zadajte študenský email" required>
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Prezývka</label>
+                <label for="email" class="form-label">Prezývka  &nbsp;&nbsp;&nbsp; <span id="registrationFormNickNameMessage" style="color:#f37429;"></span></label>
                 <input type="text" value="branoMrkva" name="nickName" class="form-control" minlength="4" maxlength="12"  placeholder="Zadajte prezývku" required>
             </div>
             <div class="mb-3">
@@ -34,6 +34,8 @@ function showRegistrationFormPage()
 
 function registerUser(event){
     event.preventDefault();
+    registrationFormEmailMessage("");
+    registrationFormNickNameMessage("");
     const form = document.getElementById('registrationForm');
     const formData = new FormData(form);
     const dataObject = Object.fromEntries(formData);
@@ -42,31 +44,41 @@ function registerUser(event){
     {
         showRegistrationLoadingIcon();
         postData(dataObject, "/registerUser").then(response => {
-            console.log('response:', response);
             if(response.success)
             {
                 showLoginFormPage();
             }
             else
             {
-                registrationFormMessage(response.message);
+                if(response.message.includes("email"))
+                {
+                    registrationFormEmailMessage(response.message);
+                }
+                else
+                {
+                    registrationFormNickNameMessage(response.message);
+                }
                 hideRegistrationLoadingIcon();
             }
         })
         .catch(error => {console.error("There was problem:", error);}); 
     }
-    console.log('Form Data as Object:', dataObject);
 }
 
-function registrationFormMessage(message)
+function registrationFormEmailMessage(message)
 {
-    document.getElementById("registrationFormMessage").innerHTML=message;
+    document.getElementById("registrationFormEmailMessage").innerHTML=message;
+}
+
+function registrationFormNickNameMessage(message)
+{
+    document.getElementById("registrationFormNickNameMessage").innerHTML=message;
 }
 
 function isDataCorrect(dataObject){
     if(!isEmailInUnizaFormat(dataObject.email))
     {
-        registrationFormMessage("You need to use Uniza registered email !");
+        registrationFormEmailMessage("Zadaný email nieje registrovaný na Žilinskej Univerzite !");
         return false;
     }
     

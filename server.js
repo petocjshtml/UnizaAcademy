@@ -5,6 +5,7 @@ const userController = new UserController();
 
 const express = require('express');
 const mongoose = require("mongoose");
+const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
 // video modules
@@ -34,6 +35,43 @@ app.post("/registerUser", async (req, res) => {
     try {
        const response = await userController.addUser(req.body);
        res.status(200).send(response);
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
+app.post("/loginUser", async (req, res) => {
+    try {
+        const user = await userController.selectUserByEmail(req.body.email); 
+        if(user)
+        {
+            const isPasswordCorrect = userController.verifyUserPassword(req.body.password,user.password);
+            if(isPasswordCorrect)
+            {
+              //login success
+              const token = jwt.sign({ id: user._id }, process.env.API_KEY, { expiresIn: '1h' });
+              res.status(200).send({
+                success: true,
+                message: "Prihlásenie prebehlo úspešne!",
+                token: token,  
+                user: {
+                    id: user._id,
+                    email: user.email,
+                    nickName: user.nickName,
+                    isAdmin: user.isAdmin,
+                    //heslo sa vraj neposiela na frontend z bezpečnostných dôvodov
+                }  
+              });
+            }
+            else
+            {
+                res.status(200).send({ success: false, message: "Nesprávne heslo !" });
+            }
+        }
+        else
+        {
+            res.status(200).send({ success: false, message: "Email neexistuje !" });
+        } 
     } catch (error) {
        res.status(400).send({ error: error.message });
     }

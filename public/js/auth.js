@@ -1,18 +1,14 @@
 function isUserLoggedIn()
 {
+    const user = getUserFromLS();
+    if(user)
+    {
+        return true;
+    }
     return false;
 }
 
 function getUserFromLS() 
 {
-    const user = nacitatZLocalStorage("user");
-    // return user;
-    // simulované:
-    return {
-        id:"mongo id of user here",
-        nickname: "Terminator44",
-        email: "jozkomrkvicka@stud.uniza.sk",
-        jwt_token:"store jwt token here",
-        is_admin: false,
-    };
+    return nacitatZLocalStorage("user");
 }
