@@ -6,6 +6,8 @@ const userController = new UserController();
 const express = require('express');
 const mongoose = require("mongoose");
 const jwt = require('jsonwebtoken');
+const verifyToken = require('./my_modules/authMiddleware'); 
+
 require("dotenv").config();
 
 // video modules
@@ -77,9 +79,11 @@ app.post("/loginUser", async (req, res) => {
     }
 });
 
+
+//zabezpečená backend endpointy - pridaný verifyToken auth middleware
 //získanie parametrov a overenie platnosti videa (na youtube) :
 //http://localhost:3000/check-video?url=https://www.youtube.com/watch?v=z0-Lk4P-c3o
-app.get('/check-video', async (req, res) => {
+app.get('/check-video', verifyToken, async (req, res) => {
     const videoUrl = req.query.url;
     if (!videoUrl) {
         return res.status(400).json({ message: 'No video URL provided' });
