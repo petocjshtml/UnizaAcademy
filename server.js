@@ -1,3 +1,8 @@
+const UserController = require("./controllers/UserController");
+
+const userController = new UserController();
+
+
 const express = require('express');
 const mongoose = require("mongoose");
 require("dotenv").config();
@@ -17,6 +22,22 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(express.static("public"));
+
+//endpoint pre zobrazenie frontendu
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "/public/index.html"));
+});
+
+//backend endpointy
+app.post("/registerUser", async (req, res) => {
+    try {
+       const response = await userController.addUser(req.body);
+       res.status(200).send(response);
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
 
 //získanie parametrov a overenie platnosti videa (na youtube) :
 //http://localhost:3000/check-video?url=https://www.youtube.com/watch?v=z0-Lk4P-c3o

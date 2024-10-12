@@ -5,24 +5,25 @@ function showRegistrationFormPage()
     page_info.innerHTML="Registračný formulár";
     root.innerHTML=`
         <div class="container mt-5 card">
-        <form>
+        <div id="registrationFormMessage" style="color:red;"></div>
+        <form id="registrationForm" onsubmit="registerUser(event)">
             <div class="mb-3">
                 <label for="email" class="form-label">Študenský email</label>
-                <input type="email" class="form-control" placeholder="Zadajte študenský email" required>
+                <input type="email" value="branomrkvicka@stud.uniza.sk" name="email" class="form-control" minlength="3" maxlength="50" placeholder="Zadajte študenský email" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Prezývka</label>
-                <input type="text" class="form-control"  placeholder="Zadajte prezývku" required>
+                <input type="text" value="branoMrkva" name="nickName" class="form-control" minlength="4" maxlength="12"  placeholder="Zadajte prezývku" required>
             </div>
             <div class="mb-3">
                 <label for="heslo" class="form-label">Heslo</label>
-                <input type="password" class="form-control"  placeholder="Zadajte heslo" required>
+                <input type="password" value="MrkvaBrano123" name="password" class="form-control" minlength="8" maxlength="20"  placeholder="Zadajte heslo" required>
             </div>
             <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" required>
                 ${getUserAgreementModalCode()}
             </div>
-            <button type="submit" onclick="showRegistrationLoadingIcon()" class="btn btn-danger">Odoslať</button>
+            <button type="submit" class="btn btn-danger">Odoslať</button>
             <img id="registrationLoadingElement" src="images/loading.gif" alt="Loading" style="width: 30px; margin-left: 10px; display:none;">
         </form>
         </div>
@@ -30,6 +31,58 @@ function showRegistrationFormPage()
     closeMenu();
     enableFooter(false);
 }
+
+function registerUser(event){
+    event.preventDefault();
+    const form = document.getElementById('registrationForm');
+    const formData = new FormData(form);
+    const dataObject = Object.fromEntries(formData);
+    dataObject.isAdmin = false;
+    if(isDataCorrect(dataObject))
+    {
+        showRegistrationLoadingIcon();
+        postData(dataObject, "/registerUser").then(response => {
+            console.log('response:', response);
+            if(response.success)
+            {
+                showLoginFormPage();
+            }
+            else
+            {
+                registrationFormMessage(response.message);
+                hideRegistrationLoadingIcon();
+            }
+        })
+        .catch(error => {console.error("There was problem:", error);}); 
+    }
+    console.log('Form Data as Object:', dataObject);
+}
+
+function registrationFormMessage(message)
+{
+    document.getElementById("registrationFormMessage").innerHTML=message;
+}
+
+function isDataCorrect(dataObject){
+    if(!isEmailInUnizaFormat(dataObject.email))
+    {
+        registrationFormMessage("You need to use Uniza registered email !");
+        return false;
+    }
+    
+    return true;
+}
+
+function isEmailInUnizaFormat(email) {
+    let stringArray = ["@stud.uniza.sk","@fel.uniza.sk"];
+    for (let str of stringArray) {
+       if (email.includes(str)) {
+          return true;
+       }
+    }
+    return false;
+}
+ 
 
 function showRegistrationLoadingIcon() {
     document.getElementById("registrationLoadingElement").style.display="revert";    
