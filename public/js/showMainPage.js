@@ -52,13 +52,9 @@ function showHeaderForLoggedInUser(userFromLS)
 {
     const header = document.getElementById("header");
     const isAdmin = userFromLS.is_admin;
-    const email = userFromLS.email;
     const nickname = isAdmin ? userFromLS.nickname + " (admin)" : userFromLS.nickname;
     // Podmienky pre výber správnych názvov v závislosti od toho, či sa jedná o bežného používateľa alebo o administrátora
     const videoTutorialsOnclick = isAdmin ? "showAdminVideoTutorialsPage()" : "showUserVideoTutorialsPage()";
-    const aboutUsOrUsersAdminOnclick = isAdmin ? "showAdminUsersPage()" : "showAboutUsPage()";
-    const secondNavMenuLinkName = isAdmin ? "Používatelia" : "O nás";
-
     header.innerHTML= `
     <nav class="navbar navbar-expand-lg navbar-dark bg-kmikt-blue fs-5 ">
     <div class="container-fluid">
@@ -68,7 +64,7 @@ function showHeaderForLoggedInUser(userFromLS)
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link active text-white ms-3 " aria-current="page" onclick="${aboutUsOrUsersAdminOnclick}" href="#">${secondNavMenuLinkName}</a>
+          <a class="nav-link active text-white ms-3 " aria-current="page" onclick="showAboutUsPage()" href="#">O nás</a>
           <a class="nav-link active text-white ms-3 " aria-current="page" onclick="${videoTutorialsOnclick}" href="#">Videotutoriály</a>
         </div>
         <!-- Položky napravo -->
@@ -79,9 +75,13 @@ function showHeaderForLoggedInUser(userFromLS)
               ${nickname}
             </a>
             <ul class="dropdown-menu dropdown-menu-end bg-kmikt-blue" aria-labelledby="profileDropdown">
-              <li><a class="dropdown-item text-white" onclick='showUserProfilePage(${JSON.stringify(userFromLS)})' href="#">Profil</a></li>
-              <li><a class="dropdown-item text-white" onclick='showUserAccountSettings(${JSON.stringify(userFromLS)})' href="#">Nastavenia účtu</a></li>
-              
+              <li><a class="dropdown-item text-white no-hover"  href="#" style="background-color: transparent; color: inherit; pointer-events: none;">
+              Zmeniť používateľské údaje
+              </a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-white" onclick='changeNickNamePage(${JSON.stringify(userFromLS)})' href="#">Zmena prezývky</a></li>
+              <li><a class="dropdown-item text-white" onclick='changeEmailPage(${JSON.stringify(userFromLS)})' href="#">Zmena emailu</a></li>
+              <li><a class="dropdown-item text-white" onclick='changePasswordPage()' href="#">Zmena hesla</a></li>
             </ul>
           </div>
           <a class="nav-link active text-white ms-3 " href="#" onclick="logOutUser()" tabindex="-1" aria-disabled="true">Odhlásiť sa</a>
