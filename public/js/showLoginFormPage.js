@@ -47,7 +47,6 @@ function loginUser(event) {
             //tuna zahrnúť logiku úspešného prihlásenia
             console.log('response:', response);
             const userInfo = {
-                id: response.user.id,
                 nickname: response.user.nickName,
                 email: response.user.email,
                 jwt_token: response.token,

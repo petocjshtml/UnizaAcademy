@@ -49,6 +49,104 @@ class UserController {
          throw new Error(`Chyba pri hľadaní používateľa podľa emailu: ${error.message}`);
       }
    }
+
+   async changeEmail(userId, newEmail) {
+      try {
+     
+          // Overenie, či už nový email existuje
+          const existingUser = await User.findOne({ email: newEmail });
+          if (existingUser) {
+              return { success: false, message: "Tento email už je používaný." };
+          }
+  
+          // Aktualizácia emailu
+          const updatedUser = await User.findByIdAndUpdate(userId, { email: newEmail }, { new: true });
+          if (!updatedUser) {
+              throw new Error("Používateľ nebol nájdený.");
+          }
+
+          // Konverzia Mongoose dokumentu na obyčajný JS objekt
+          const updatedUserObject = updatedUser.toObject();
+          // neposielať heslo na frontend
+          delete updatedUserObject.password;
+          return { success: true, message: "Email úspešne zmenený.", user: updatedUserObject };
+      } catch (error) {
+          throw new Error(`Chyba pri zmene emailu: ${error.message}`);
+      }
+   }
+
+   async changeNickName(userId, newNickName) {
+      try {
+          // Overenie, či už nová prezývka existuje
+          const existingUser = await User.findOne({ nickName: newNickName });
+          if (existingUser) {
+              return { success: false, message: "Táto prezývka už je používaná." };
+          }
+  
+          // Aktualizácia prezývky
+          const updatedUser = await User.findByIdAndUpdate(userId, { nickName: newNickName }, { new: true });
+          if (!updatedUser) {
+              throw new Error("Používateľ nebol nájdený.");
+          }
+  
+          // Konverzia Mongoose dokumentu na obyčajný JS objekt
+          const updatedUserObject = updatedUser.toObject();
+          // neposielať heslo na frontend
+          delete updatedUserObject.password;
+          return { success: true, message: "Prezývka úspešne zmenená.", user: updatedUserObject };
+      } catch (error) {
+          throw new Error(`Chyba pri zmene prezývky: ${error.message}`);
+      }
+   }
+
+   async changePassword(userId, oldPassword, newPassword) {
+      try {
+          // Nájdeme používateľa podľa ID
+          const user = await User.findById(userId);
+          if (!user) {
+              throw new Error("Používateľ nebol nájdený.");
+          }
+  
+          // Overenie starého hesla
+          const [salt, originalHash] = user.password.split(':');
+          const hashedOldPassword = crypto.pbkdf2Sync(oldPassword, salt, 1000, 64, 'sha256').toString('hex');
+  
+          if (hashedOldPassword !== originalHash) {
+              return { success: false, message: "Staré heslo nie je správne." };
+          }
+  
+          // Vytvorenie salt a zahashovanie nového hesla pomocou SHA-256
+          const newSalt = crypto.randomBytes(16).toString('hex');
+          const hashedNewPassword = crypto.pbkdf2Sync(newPassword, newSalt, 1000, 64, 'sha256').toString('hex');
+          const passwordWithSalt = `${newSalt}:${hashedNewPassword}`;
+  
+          // Aktualizácia hesla
+          const updatedUser = await User.findByIdAndUpdate(userId, { password: passwordWithSalt }, { new: true });
+          if (!updatedUser) {
+              throw new Error("Používateľ nebol nájdený.");
+          }
+  
+          // Konverzia Mongoose dokumentu na obyčajný JS objekt
+          const updatedUserObject = updatedUser.toObject();
+          // neposielať heslo na frontend
+          delete updatedUserObject.password;
+          return { success: true, message: "Heslo úspešne zmenené.", user: updatedUserObject };
+      } catch (error) {
+          throw new Error(`Chyba pri zmene hesla: ${error.message}`);
+      }
+   }
+  
+   async isAdmin(userId) {
+      try {
+         const user = await User.findById(userId);
+         if (!user) {
+            throw new Error("Používateľ nebol nájdený.");
+         }
+         return user.isAdmin === true;
+      } catch (error) {
+         throw new Error(`Chyba pri kontrole admin práv: ${error.message}`);
+      }
+   }
 }
 
 module.exports = UserController;

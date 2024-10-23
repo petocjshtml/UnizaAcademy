@@ -81,6 +81,35 @@ app.post("/loginUser", async (req, res) => {
 
 
 //zabezpečená backend endpointy - pridaný verifyToken auth middleware
+app.post("/change-nickname",verifyToken, async (req, res) => {
+    try {
+       const response = await userController.changeNickName(req.userId, req.body.newNickName);
+       res.status(200).send(response);
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
+//zabezpečená backend endpointy - pridaný verifyToken auth middleware
+app.post("/change-email",verifyToken, async (req, res) => {
+    try {
+       const response = await userController.changeEmail(req.userId, req.body.newEmail);
+       res.status(200).send(response);
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
+app.post("/change-password",verifyToken, async (req, res) => {
+    try {
+       const response = await userController.changePassword(req.userId, req.body.oldPassword, req.body.newPassword);
+       res.status(200).send(response);
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
+
 //získanie parametrov a overenie platnosti videa (na youtube) :
 //http://localhost:3000/check-video?url=https://www.youtube.com/watch?v=z0-Lk4P-c3o
 app.get('/check-video', verifyToken, async (req, res) => {

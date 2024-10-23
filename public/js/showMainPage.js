@@ -52,6 +52,7 @@ function showHeaderForLoggedInUser(userFromLS)
 {
     const header = document.getElementById("header");
     const isAdmin = userFromLS.is_admin;
+    const email = userFromLS.email;
     const nickname = isAdmin ? userFromLS.nickname + " (admin)" : userFromLS.nickname;
     // Podmienky pre výber správnych názvov v závislosti od toho, či sa jedná o bežného používateľa alebo o administrátora
     const videoTutorialsOnclick = isAdmin ? "showAdminVideoTutorialsPage()" : "showUserVideoTutorialsPage()";
@@ -81,7 +82,7 @@ function showHeaderForLoggedInUser(userFromLS)
               <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item text-white" onclick='changeNickNamePage(${JSON.stringify(userFromLS)})' href="#">Zmena prezývky</a></li>
               <li><a class="dropdown-item text-white" onclick='changeEmailPage(${JSON.stringify(userFromLS)})' href="#">Zmena emailu</a></li>
-              <li><a class="dropdown-item text-white" onclick='changePasswordPage()' href="#">Zmena hesla</a></li>
+              <li><a class="dropdown-item text-white" onclick='changePasswordPage(${JSON.stringify(userFromLS)})' href="#">Zmena hesla</a></li>
             </ul>
           </div>
           <a class="nav-link active text-white ms-3 " href="#" onclick="logOutUser()" tabindex="-1" aria-disabled="true">Odhlásiť sa</a>
