@@ -9,22 +9,21 @@ function showAdminVideoTutorialsPage()
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                    <label for="dropdown1" class="form-label">
-                    <span style="color:#bed7ff;cursor:pointer" class="text-end" data-bs-toggle="modal" data-bs-target="#addFacultyModal">Pridať fakultu</span></label>
-                    <select class="form-select" id="dropdown1" disabled>
+                    <label for="faculty" class="form-label">
+                    <span id="addFacultyModalActivator" style="color:#bed7ff8f;cursor:pointer"
+                    class="text-end">Pridať fakultu</span></label>
+                    <select class="form-select" id="faculty" disabled>
                         <option selected>none...</option>
-                        <option value="1">Možnosť 1</option>
-                        <option value="2">Možnosť 2</option>
-                        <option value="3">Možnosť 3</option>
                     </select>
                     ${addFacultyModal()}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                    <label for="dropdown2" class="form-label">
-                    <span style="color:#bed7ff8f;cursor:pointer" data-bs-toggle="modal" data-bs-target="#addStudyFormModal">Pridať formu štúdia</span></label>
-                    <select class="form-select" id="dropdown2" disabled>
+                    <label for="studyForm" class="form-label">
+                    <span id="addStudyFormModalActivator" 
+                    style="color:#bed7ff8f;cursor:pointer">Pridať formu štúdia</span></label>
+                    <select class="form-select" id="studyForm" disabled>
                         <option selected>none...</option>
                         <option value="1">Možnosť 1</option>
                         <option value="2">Možnosť 2</option>
@@ -35,9 +34,10 @@ function showAdminVideoTutorialsPage()
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                    <label for="dropdown3" class="form-label">
-                    <span style="color:#bed7ff8f;cursor:pointer" data-bs-toggle="modal" data-bs-target="#addStudyYearModal">Pridať ročník</span></label>
-                    <select class="form-select" id="dropdown3" disabled>
+                    <label for="year" class="form-label">
+                    <span id="addStudyYearModalActivator" 
+                    style="color:#bed7ff8f;cursor:pointer">Pridať ročník</span></label>
+                    <select class="form-select" id="year" disabled>
                         <option selected>none...</option>
                         <option value="1">Možnosť 1</option>
                         <option value="2">Možnosť 2</option>
@@ -48,9 +48,10 @@ function showAdminVideoTutorialsPage()
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                    <label for="dropdown4" class="form-label"> 
-                    <span style="color:#bed7ff8f;cursor:pointer" data-bs-toggle="modal" data-bs-target="#addStudyProgramModal">Pridať študijný program</span></label>
-                    <select class="form-select" id="dropdown4" disabled>
+                    <label for="studyProgram" class="form-label"> 
+                    <span id="addStudyProgramModalActivator" 
+                    style="color:#bed7ff8f;cursor:pointer">Pridať študijný program</span></label>
+                    <select class="form-select" id="studyProgram" disabled>
                         <option selected>none...</option>
                         <option value="1">Možnosť 1</option>
                         <option value="2">Možnosť 2</option>
@@ -60,45 +61,58 @@ function showAdminVideoTutorialsPage()
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-danger" disabled>Pridať predmet</button>
+            <div class="d-grid gap-2 d-md-block">
+               <button class="btn btn-danger" type="button" disabled>Pridať predmet</button>
+            </div>              
         </form>
         <br><br>
-        <table class="table table-hover table-transparent text-center">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Zobraziť nie ako tabuľku ale ako orámované karty
-                 bielym rámom s border radius, a padding, v každej karte nech
-                 je skratka predmetu s title celým menom predmetu</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Ing. Uhrina Miroslav, PhD.</td>
-            </tr>
-            </tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Ing. Radilová Martina, PhD.</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>doc. Ing. Počta Peter, PhD.</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>doc. Ing. Vaculík Martin, PhD.</td>
-            </tr>
-        </table>
         </div>
     `;
     closeMenu();
     enableFooter(false);
+    enableModalActivator("addFacultyModalActivator");
+   // enableModalActivator("addStudyYearModalActivator");
+   // enableModalActivator("addStudyProgramModalActivator");
+
+    document.getElementById('addStudyFormModalActivator').addEventListener('click', function() {
+        const selectedDropdown = getSelectedDropdown("faculty");
+        const facultyNameInput = document.getElementById("studyFormFacultyValue");
+        facultyNameInput.value = selectedDropdown.text;
+        facultyNameInput.setAttribute("mongo-id",selectedDropdown.value);
+    });
+
+    document.getElementById('addStudyYearModalActivator').addEventListener('click', function() {
+        const facultyText = getSelectedDropdown("faculty");
+        const studyFormText = getSelectedDropdown("studyForm");
+        document.getElementById("studyYearFacultyValue").value = facultyText;
+        document.getElementById("studyYearStudyFormValue").value = studyFormText;
+    });
+
+    document.getElementById('addStudyProgramModalActivator').addEventListener('click', function() {
+        const facultyText = getSelectedDropdown("faculty");
+        const studyFormText = getSelectedDropdown("studyForm");
+        const yearText = getSelectedDropdown("year");
+        document.getElementById("studyProgramFacultyValue").value = facultyText;
+        document.getElementById("studyProgramStudyFormValue").value = studyFormText;
+        document.getElementById("studyProgramYearValue").value = yearText;
+    });
+
+    loadFaculties();
 }
 
-function createStudyField(event) {
+function disableModalActivator(id) {
+    const button = document.getElementById(id);
+    button.style.color="#bed7ff8f";
+    button.removeAttribute('data-bs-toggle');
+    button.removeAttribute('data-bs-target');
+}
 
+function enableModalActivator(id) {
+    const button = document.getElementById(id);
+    button.style.color="#bed7ff";
+    const modalId = "#" + id.replace("Activator", "");
+    button.setAttribute('data-bs-toggle', 'modal');
+    button.setAttribute('data-bs-target', modalId);
 }
 
 function addFacultyModal() {
@@ -134,14 +148,14 @@ function addStudyFormModal() {
         <div class="modal-dialog">
             <div class="modal-content bg-kmikt-blue">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="color:white;" id="addStudyFormLabel">Pridať formu štúdia</h5>
+                    <h5 class="modal-title" style="color:white;" id="addStudyFormLabel">Pridanie formy štúdia</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="color:white;">
                     <form id="addStudyFormForm">
                         <div class="mb-3">
-                            <label for="facultyName" class="form-label">Fakulta</label>
-                            <input type="text" class="form-control"  disabled>
+                            <label for="facultyName" class="form-label">Názov fakulty</label>
+                            <input type="text" id="studyFormFacultyValue" class="form-control" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="studyFormName" class="form-label">Názov formy štúdia</label>
@@ -165,20 +179,28 @@ function addStudyYearModal() {
         <div class="modal-dialog">
             <div class="modal-content bg-kmikt-blue">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="color:white;" id="addStudyYearLabel">Pridať ročník</h5>
+                    <h5 class="modal-title" style="color:white;" id="addStudyYearLabel">Pridanie ročníka</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="color:white;">
                     <form id="addStudyYearForm">
                         <div class="mb-3">
-                            <label for="studyYearNumber" class="form-label">Číslo ročníka</label>
-                            <input type="number" class="form-control" id="studyYearNumber" required>
+                            <label for="facultyName" class="form-label">Názov fakulty</label>
+                            <input type="text" id="studyYearFacultyValue" class="form-control"  disabled>
                         </div>
-                        <button type="submit" class="btn btn-primary">Pridať ročník</button>
+                        <div class="mb-3">
+                            <label for="studyFormName" class="form-label">Názov formy štúdia</label>
+                            <input type="text" id="studyYearStudyFormValue" class="form-control"  disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studyYear" class="form-label">Názov ročníka</label>
+                            <input type="text" class="form-control" id="studyYear" required>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Zrušiť</button>
+                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zavrieť</button>
+                     <button type="button" onclick="event.preventDefault();" class="btn btn-danger" data-bs-dismiss="modal">Pridať ročník</button>
                 </div>
             </div>
         </div>
@@ -192,20 +214,32 @@ function addStudyProgramModal() {
         <div class="modal-dialog">
             <div class="modal-content bg-kmikt-blue">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="color:white;" id="addStudyProgramLabel">Pridať študijný program</h5>
+                    <h5 class="modal-title" style="color:white;" id="addStudyProgramLabel">Pridanie študijného programu</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="color:white;">
                     <form id="addStudyProgramForm">
                         <div class="mb-3">
+                            <label for="facultyName" class="form-label">Názov fakulty</label>
+                            <input type="text" id="studyProgramFacultyValue" class="form-control"  disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studyFormName" class="form-label">Názov formy štúdia</label>
+                            <input type="text" id="studyProgramStudyFormValue" class="form-control"  disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studyYear" class="form-label">Názov ročníka</label>
+                            <input type="text" id="studyProgramYearValue" class="form-control" disabled>
+                        </div>
+                        <div class="mb-3">
                             <label for="studyProgramName" class="form-label">Názov študijného programu</label>
                             <input type="text" class="form-control" id="studyProgramName" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Pridať študijný program</button>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Zrušiť</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zavrieť</button>
+                    <button type="button" onclick="event.preventDefault();" class="btn btn-danger" data-bs-dismiss="modal">Pridať študijný program</button>
                 </div>
             </div>
         </div>
@@ -213,61 +247,90 @@ function addStudyProgramModal() {
     `;
 }
 
+function getSelectedDropdown(dropdownId) {
+   const dropdown = document.getElementById(dropdownId);
+   const selectedValue = dropdown.value;
+   const selectedText = dropdown.options[dropdown.selectedIndex].text;
+   return { value: selectedValue, text: selectedText };
+}
+
 function addFaculty(){
-    const jwtToken = getUserFromLS().jwt_token;
     const facultyName = document.getElementById("facultyName").value;
     const jsonData = {
         facultyName:facultyName,
-    }
-    postDataLoggedIn(jsonData, "/faculties", jwtToken).then(response => {
-        console.log(response);
+    };
+    const token = getUserFromLS().jwt_token;
+    const endpoint_url = "/faculties";
+    postDataLoggedIn(jsonData, endpoint_url, token).then(response => {
         if(response.success)
         {
-            
+            showAdminVideoTutorialsPage();
         }
     })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+    .catch(error => { console.error('Error:', error); });
+}
+
+function addStudyForm() {
+    const facultyNameInput = document.getElementById("studyFormFacultyValue");
+    const facultyId = facultyNameInput.getAttribute("mongo-id");
+    const studyFormName = document.getElementById("studyFormName").value;
+    const jsonData = { facultyId, studyFormName };
+    const token = getUserFromLS().jwt_token;
+    const endpoint_url = "/study-forms";
+    postDataLoggedIn(jsonData, endpoint_url, token).then(response => {
+        if(response.success)
+        {
+            showAdminVideoTutorialsPage();
+        }
+    })
+    .catch(error => { console.error('Error:', error); });
 }
 
 function loadFaculties()
 {
-    const jwtToken = getUserFromLS().jwt_token;
-    getDataLoggedIn("/faculties",jwtToken).then(response => {
-        showFaculties(response);
+    const token = getUserFromLS().jwt_token;
+    const endpoint_url = "/faculties";
+    getDataLoggedIn(endpoint_url, token).then(response => {
+        console.log(response);
+        const facultySelect = document.getElementById("faculty");
+        if(response.length > 0)
+        {
+            facultySelect.options[0].remove();
+            response.forEach(faculty => {
+                const option = document.createElement("option");
+                option.value = faculty._id;
+                option.textContent = faculty.facultyName;
+                facultySelect.appendChild(option);
+            });
+            facultySelect.disabled = false;
+            enableModalActivator("addStudyFormModalActivator");
+        }
     })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+    .catch(error => { console.error('Error:', error); });
 }
 
-function getChoosenFaculty() {
-    const dropdown = document.getElementById("dropdown1");
-    const selectedOption = dropdown.options[dropdown.selectedIndex];
-    const facultyId = selectedOption.getAttribute("mongo-id");
-    alert(facultyId); // Tu vidíš zvolený 'mongo-id'
-}
+function loadStudyForms()
+{
+  /*   const token = getUserFromLS().jwt_token;
+    const endpoint_url = "/study-forms";
+    getDataLoggedIn(endpoint_url, token).then(response => {
+        console.log(response);
+        const studyFormSelect = document.getElementById("studyForm");
+        if(response.length > 0)
+        {
 
-
-function addStudyForm() {
-
-}
-
-function loadStudyForms() {
-    
-}
-
-function showFaculties(faculties) {
-    console.log("faculties", faculties);
-    const facultiesDropdown = document.getElementById("dropdown1");
-    if (faculties.length > 0) {
-        facultiesDropdown.disabled = false;
-        let facultyOptionsHtml = faculties.map(faculty => 
-            `<option mongo-id="${faculty._id}" value="${faculty._id}">${faculty.facultyName}</option>`
-        ).join('');
-        facultiesDropdown.innerHTML = facultyOptionsHtml;
-    }
+            studyFormSelect.options[0].remove();
+            response.forEach(studyForm => {
+                const option = document.createElement("option");
+                option.value = studyForm._id;
+                option.textContent = studyForm.studyFormName;
+                studyFormSelect.appendChild(option);
+            });
+            studyFormSelect.disabled = false;
+            enableModalActivator("addStudyYearModalActivator");
+        }
+    })
+    .catch(error => { console.error('Error:', error); }); */
 }
 
 

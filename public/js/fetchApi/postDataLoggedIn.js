@@ -5,10 +5,15 @@ async function postDataLoggedIn(jsonData, endpoint_url, token) {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`  
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(jsonData),
         });
+        if (response.status === 401) {
+            alert("Vaša relácia vypršala. Prosím, prihláste sa znova.");
+            logOutUser();
+            return;
+        }
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

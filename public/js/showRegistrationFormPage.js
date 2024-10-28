@@ -5,7 +5,6 @@ function showRegistrationFormPage()
     page_info.innerHTML="Registračný formulár";
     root.innerHTML=`
         <div class="container mt-5 card">
-        
         <form id="registrationForm" onsubmit="registerUser(event)">
             <div class="mb-3">
                 <label for="email" class="form-label">Študenský email &nbsp;&nbsp;&nbsp; <span id="registrationFormEmailMessage" style="color:#f37429;"></span></label>
@@ -30,78 +29,6 @@ function showRegistrationFormPage()
     `;
     closeMenu();
     enableFooter(false);
-}
-
-function registerUser(event){
-    event.preventDefault();
-    registrationFormEmailMessage("");
-    registrationFormNickNameMessage("");
-    const form = document.getElementById('registrationForm');
-    const formData = new FormData(form);
-    const dataObject = Object.fromEntries(formData);
-    dataObject.isAdmin = false;
-    if(isDataCorrect(dataObject))
-    {
-        showRegistrationLoadingIcon();
-        postData(dataObject, "/registerUser").then(response => {
-            if(response.success)
-            {
-                showLoginFormPage();
-            }
-            else
-            {
-                if(response.message.includes("email"))
-                {
-                    registrationFormEmailMessage(response.message);
-                }
-                else
-                {
-                    registrationFormNickNameMessage(response.message);
-                }
-                hideRegistrationLoadingIcon();
-            }
-        })
-        .catch(error => {console.error("There was problem:", error);}); 
-    }
-}
-
-function registrationFormEmailMessage(message)
-{
-    document.getElementById("registrationFormEmailMessage").innerHTML=message;
-}
-
-function registrationFormNickNameMessage(message)
-{
-    document.getElementById("registrationFormNickNameMessage").innerHTML=message;
-}
-
-function isDataCorrect(dataObject){
-    if(!isEmailInUnizaFormat(dataObject.email))
-    {
-        registrationFormEmailMessage("Zadaný email nieje registrovaný na Žilinskej Univerzite !");
-        return false;
-    }
-    
-    return true;
-}
-
-function isEmailInUnizaFormat(email) {
-    let stringArray = ["@stud.uniza.sk","@fel.uniza.sk"];
-    for (let str of stringArray) {
-       if (email.includes(str)) {
-          return true;
-       }
-    }
-    return false;
-}
- 
-
-function showRegistrationLoadingIcon() {
-    document.getElementById("registrationLoadingElement").style.display="revert";    
-}
-
-function hideRegistrationLoadingIcon() {
-    document.getElementById("registrationLoadingElement").style.display="none";    
 }
 
 function getUserAgreementModalCode() {
@@ -134,4 +61,49 @@ function getUserAgreementModalCode() {
         </div>
         </div>
     `;
+}
+
+function isEmailInUnizaFormat(email) {
+    let stringArray = ["@stud.uniza.sk","@fel.uniza.sk"];
+    for (let str of stringArray) {
+       if (email.includes(str)) {
+          return true;
+       }
+    }
+    return false;
+}
+
+function registerUser(event){
+    event.preventDefault();
+    message("registrationFormEmailMessage","");
+    message("registrationFormNickNameMessage","");
+    const form = document.getElementById('registrationForm');
+    const formData = new FormData(form);
+    const dataObject = Object.fromEntries(formData);
+    dataObject.isAdmin = false;
+    if(!isEmailInUnizaFormat(dataObject.email))
+    {
+        message("registrationFormEmailMessage","Zadaný email nieje registrovaný na Žilinskej Univerzite !");
+        return;
+    }
+    showLoading("registrationLoadingElement");
+    postData(dataObject, "/registerUser").then(response => {
+        if(response.success)
+        {
+            showLoginFormPage();
+        }
+        else
+        {
+            if(response.message.includes("email"))
+            {
+                message("registrationFormEmailMessage",response.message)
+            }
+            else
+            {
+                message("registrationFormNickNameMessage",response.message)
+            }
+            hideLoading("registrationLoadingElement");
+        }
+    })
+    .catch(error => {console.error("There was problem:", error);}); 
 }

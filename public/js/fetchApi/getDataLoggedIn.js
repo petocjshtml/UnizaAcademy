@@ -1,4 +1,4 @@
-async function getDataLoggedIn(endpoint_url,token) {
+async function getDataLoggedIn(endpoint_url, token) {
     const endpointUrl = `${window.location.origin}${endpoint_url}`;
     try {
         const response = await fetch(endpointUrl, {
@@ -8,6 +8,11 @@ async function getDataLoggedIn(endpoint_url,token) {
                 "Authorization": `Bearer ${token}`  
             },
         });
+        if (response.status === 401) {
+            alert("Vaša relácia vypršala. Prosím, prihláste sa znova.");
+            logOutUser();
+            return;
+        }
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

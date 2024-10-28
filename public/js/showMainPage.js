@@ -1,20 +1,18 @@
 function showMainPage()
 {
     isUserLoggedIn() ? showHeaderForLoggedInUser(getUserFromLS()) : showHeader();
-    //const page_info = document.getElementById("page-info");
     const root = document.getElementById("root");
-    //page_info.innerHTML="Uniza Academy";
-    // Uniza Academy
     root.innerHTML=
     `
     ${getImproveYourSkillsHtml()}
-    ${getFiveBenefitsOfElectronicLearningVideoHtml()}
-    ${getAllStudyFieldsHtml()}
+    ${eLearningHtml()}
+    ${getAllStudyFieldsHtml()} 
     ${getYoutubeTeamWorkHtml()}
     ${getFiveBenefitsOfVideoLearningHtml()}
     `;
     closeMenu();
     enableFooter(true);
+    setUpVideoStartTime("eLearning",1);
 }
 
 function showHeader()
@@ -51,10 +49,8 @@ function showHeader()
 function showHeaderForLoggedInUser(userFromLS)
 {
     const header = document.getElementById("header");
-    const isAdmin = userFromLS.is_admin;
-    const email = userFromLS.email;
-    const nickname = isAdmin ? userFromLS.nickname + " (admin)" : userFromLS.nickname;
-    // Podmienky pre výber správnych názvov v závislosti od toho, či sa jedná o bežného používateľa alebo o administrátora
+    const isAdmin = userFromLS.isAdmin;
+    const nickName = isAdmin ? userFromLS.nickName + " (admin)" : userFromLS.nickName;
     const videoTutorialsOnclick = isAdmin ? "showAdminVideoTutorialsPage()" : "showUserVideoTutorialsPage()";
     header.innerHTML= `
     <nav class="navbar navbar-expand-lg navbar-dark bg-kmikt-blue fs-5 ">
@@ -73,16 +69,11 @@ function showHeaderForLoggedInUser(userFromLS)
          <!-- Dropdown pre profil -->
           <div class="nav-item dropdown">
             <a class="nav-link dropdown-toggle active text-white ms-3" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              ${nickname}
+              ${nickName}
             </a>
             <ul class="dropdown-menu dropdown-menu-end bg-kmikt-blue" aria-labelledby="profileDropdown">
-              <li><a class="dropdown-item text-white no-hover"  href="#" style="background-color: transparent; color: inherit; pointer-events: none;">
-              Zmeniť používateľské údaje
-              </a></li>
-              <li><hr class="dropdown-divider"></li>
               <li><a class="dropdown-item text-white" onclick='changeNickNamePage(${JSON.stringify(userFromLS)})' href="#">Zmena prezývky</a></li>
-              <li><a class="dropdown-item text-white" onclick='changeEmailPage(${JSON.stringify(userFromLS)})' href="#">Zmena emailu</a></li>
-              <li><a class="dropdown-item text-white" onclick='changePasswordPage(${JSON.stringify(userFromLS)})' href="#">Zmena hesla</a></li>
+              <li><a class="dropdown-item text-white" onclick='changePasswordPage()' href="#">Zmena hesla</a></li>
             </ul>
           </div>
           <a class="nav-link active text-white ms-3 " href="#" onclick="logOutUser()" tabindex="-1" aria-disabled="true">Odhlásiť sa</a>
@@ -96,12 +87,6 @@ function showHeaderForLoggedInUser(userFromLS)
   </div>
   `;
 }
-
-function logOutUser(){
-  vymazatZLocalStorage("user");
-  showMainPage();
-}
-
 
 function getImproveYourSkillsHtml()
 {
@@ -126,13 +111,22 @@ function getImproveYourSkillsHtml()
     `;
 }
 
-function getFiveBenefitsOfElectronicLearningVideoHtml()
+function eLearningHtml()
 {
-    return`
+    return `
     <div class="container my-5 card">
-        <iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/1SZle1skb84?si=AKNJSCWu0YUer98a" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>    
+        <video id="eLearning" style="width:100%;aspect-ratio:16/9;" controls>
+            <source src="videos/eLearning.mp4" type="video/mp4">
+            Váš prehliadač nepodporuje prehrávanie videa.
+        </video>
     </div>
     `;
+}
+
+function setUpVideoStartTime(id,time)
+{
+    const video = document.getElementById(id);
+    video.currentTime = time; 
 }
 
 function getAllStudyFieldsHtml()
@@ -197,22 +191,27 @@ function getYoutubeTeamWorkHtml()
 
 function getFiveBenefitsOfVideoLearningHtml()
 {
-    return`
+    return `
     <div class="container my-5 card">
-         <iframe style="width:100%;aspect-ratio:16/9;" src="https://www.youtube.com/embed/Y1zCYzmvQmI?si=Jyj67PKZJHgw8KeK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <video style="width:100%;aspect-ratio:16/9;" controls>
+            <source src="videos/fiveBenefits.mp4" type="video/mp4">
+            Váš prehliadač nepodporuje prehrávanie videa.
+        </video>
     </div>
     `;
 }
 
-//pri rozbalenom navbare pri malom rozlíšení rozbalené menu opäť zavrie
 function closeMenu() {
   if (window.matchMedia("(max-width: 991.98px)").matches) {
     var navbarCollapse = document.getElementById('navbarNavAltMarkup');
-    
-    // Skontroluj, či je menu otvorené (má triedu 'show')
     if (navbarCollapse.classList.contains('show')) {
       var bsCollapse = new bootstrap.Collapse(navbarCollapse);
       bsCollapse.hide();
     }
   }
+}
+
+function logOutUser(){
+  vymazatZLocalStorage("user");
+  showMainPage();
 }

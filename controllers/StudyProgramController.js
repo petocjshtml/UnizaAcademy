@@ -20,18 +20,6 @@ class StudyProgramController {
       }
    }
 
-   async getStudyProgramById(id) {
-      try {
-         const studyProgram = await StudyProgram.findById(id);
-         if (!studyProgram) {
-            return { success: false, message: "Study program not found." };
-         }
-         return studyProgram;
-      } catch (error) {
-         throw new Error(`Error fetching study program by ID: ${error.message}`);
-      }
-   }
-
    async updateStudyProgram(id, updateData) {
       try {
          const updatedStudyProgram = await StudyProgram.findByIdAndUpdate(id, updateData, { new: true });
@@ -41,18 +29,6 @@ class StudyProgramController {
          return { success: true, message: "Study program updated successfully.", updatedStudyProgram };
       } catch (error) {
          throw new Error(`Error updating study program: ${error.message}`);
-      }
-   }
-
-   async deleteStudyProgram(id) {
-      try {
-         const deletedStudyProgram = await StudyProgram.findByIdAndDelete(id);
-         if (!deletedStudyProgram) {
-            return { success: false, message: "Study program not found." };
-         }
-         return { success: true, message: "Study program deleted successfully." };
-      } catch (error) {
-         throw new Error(`Error deleting study program: ${error.message}`);
       }
    }
 }

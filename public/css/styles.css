@@ -41,13 +41,14 @@ základné orámovanie tématického elementu
     background-color: #f37429;
 }
 
+/* Feit verzia pre bootstrap button danger */
 .btn.btn-danger {
     background-color: #f37429;
     border-color: #f37429;
 }
 
 .btn.btn-danger:hover {
-    background-color: #d8641b; /* Tmavšia verzia pre hover efekt */
+    background-color: #d8641b; 
     border-color: #d8641b;
 }
 
@@ -64,8 +65,8 @@ základné orámovanie tématického elementu
 }
 
 .table-transparent tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Jemný biely odtieň na pozadí pri hover */
-    color: white !important; /* Zachová bielu farbu textu pri hover */
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: white !important; 
 }
 
 /* user profile dropdown - aby bol text čitateľný */

@@ -29,64 +29,31 @@ function showLoginFormPage()
 
 function loginUser(event) {
     event.preventDefault();
-    loginFormEmailMessage("");
-    loginFormPasswordMessage("");
+    message("loginFormEmailMessage", "") ;
+    message("loginFormPasswordMessage", "") ;
     const form = document.getElementById('loginForm');
     const formData = new FormData(form);
     const dataObject = Object.fromEntries(formData);
     if(!isEmailInUnizaFormat(dataObject.email))
     {
-      return loginFormEmailMessage("Email neexistuje !");
+      return message("loginFormEmailMessage", "Email neexistuje !");
     }
-    //fetch api
-    showLoginLoadingIcon();
+    showLoading("loginLoadingElement");
     postData(dataObject, "/loginUser").then(response => {
-        
         if(response.success)
         {
-            //tuna zahrnúť logiku úspešného prihlásenia
-            console.log('response:', response);
-            const userInfo = {
-                nickname: response.user.nickName,
-                email: response.user.email,
-                jwt_token: response.token,
-                is_admin: response.user.isAdmin,
-            };
-            ulozitDoLocalStorage("user", userInfo);
+            ulozitDoLocalStorage("user", response.user);
             showMainPage();
         }
         else
         {
-            if(response.message.includes("mail"))
-            {
-                loginFormEmailMessage(response.message);
-                hideLoginLoadingIcon();
-            }
-            else
-            {
-                loginFormPasswordMessage(response.message);
-                hideLoginLoadingIcon();  
-            }
+            response.message.includes("mail") 
+                ? message("loginFormEmailMessage", response.message) 
+                : message("loginFormPasswordMessage", response.message);
+            hideLoading("loginLoadingElement");
         }
     })
     .catch(error => {console.error("There was problem:", error);}); 
-   // console.log("logindata", dataObject);
 }
 
-function showLoginLoadingIcon() {
-    document.getElementById("loginLoadingElement").style.display="revert";    
-}
 
-function hideLoginLoadingIcon() {
-    document.getElementById("loginLoadingElement").style.display="none";    
-}
-
-function loginFormEmailMessage(message)
-{
-    document.getElementById("loginFormEmailMessage").innerHTML=message;
-}
-
-function loginFormPasswordMessage(message)
-{
-    document.getElementById("loginFormPasswordMessage").innerHTML=message;
-}
