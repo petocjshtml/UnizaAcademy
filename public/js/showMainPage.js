@@ -12,7 +12,8 @@ function showMainPage()
     `;
     closeMenu();
     enableFooter(true);
-    setUpVideoStartTime("eLearning",1);
+   // setUpVideoStartTime("eLearning",1);
+    showAdminVideoTutorialsPage();
 }
 
 function showHeader()

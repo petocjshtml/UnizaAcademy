@@ -1,11 +1,25 @@
 const UserController = require("./controllers/UserController");
 const userController = new UserController();
+const FacultyController = require("./controllers/FacultyController");
+const facultyController = new FacultyController();
+const StudyFormController = require("./controllers/StudyFormController");
+const studyFormController = new StudyFormController();
+const StudyYearController = require("./controllers/StudyYearController");
+const studyYearController = new StudyYearController();
+const StudyProgramController = require("./controllers/StudyProgramController");
+const studyProgramController = new StudyProgramController();
+const StudySubjectController = require("./controllers/StudySubjectController");
+const studySubjectController = new StudySubjectController();
+const AppController = require("./controllers/AppController");
+const appController = new AppController();
+
 const loginUser = require('./my_modules/loginUser'); 
 
 const express = require('express');
 const mongoose = require("mongoose");
 const jwt = require('jsonwebtoken');
 const verifyToken = require('./my_modules/authMiddleware'); 
+const checkAdmin = require('./my_modules/checkAdmin'); 
 
 require("dotenv").config();
 
@@ -50,6 +64,16 @@ app.post("/loginUser", async (req, res) => {
     }
 });
 
+//objekty
+app.get("/getObjects", async (req, res) => {
+    try {
+        const response = await appController.getObjects();
+        res.status(200).send(response);
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
 //chránené backend endpointy pomocou auth middlewaru //
 
 //zmena prezývky
@@ -71,6 +95,70 @@ app.put("/change-password/:id",verifyToken, async (req, res) => {
        res.status(400).send({ error: error.message });
     }
 });
+
+//pridanie fakulty
+app.post("/addFaculty",verifyToken, async (req, res) => {
+    try {
+        if(await checkAdmin(req, res, userController))
+        {
+            const response = await facultyController.addFaculty(req.body);
+            res.status(200).send(response);
+        }
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
+//pridanie formy štúdia
+app.post("/addStudyForm",verifyToken, async (req, res) => {
+    try {
+        if(await checkAdmin(req, res, userController))
+        {
+            const response = await studyFormController.addStudyForm(req.body);
+            res.status(200).send(response);
+        }
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
+app.post("/addStudyYear",verifyToken, async (req, res) => {
+    try {
+        if(await checkAdmin(req, res, userController))
+        {
+            const response = await studyYearController.addStudyYear(req.body);
+            res.status(200).send(response);
+        }
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
+app.post("/addStudyProgram",verifyToken, async (req, res) => {
+    try {
+        if(await checkAdmin(req, res, userController))
+        {
+            const response = await studyProgramController.addStudyProgram(req.body);
+            res.status(200).send(response);
+        }
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
+app.post("/addStudySubject",verifyToken, async (req, res) => {
+    try {
+        if(await checkAdmin(req, res, userController))
+        {
+            const response = await studySubjectController.addStudySubject(req.body);
+            res.status(200).send(response);
+        }
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
+
 
 //spustenie serveru
 app.listen(port, () => {
