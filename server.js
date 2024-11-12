@@ -158,6 +158,30 @@ app.post("/addStudySubject",verifyToken, async (req, res) => {
     }
 });
 
+app.put("/editStudySubject/:id", verifyToken, async (req, res) => {
+    try {
+        if(await checkAdmin(req, res, userController)) 
+        {
+            const response = await studySubjectController.updateStudySubject(req.params.id, req.body);
+            res.status(200).send(response);
+        }
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+app.delete("/deleteStudySubject/:id", verifyToken, async (req, res) => {
+    try {
+        if(await checkAdmin(req, res, userController)) 
+        {
+            const response = await studySubjectController.deleteStudySubject(req.params.id);
+            res.status(200).send(response);
+        }
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
 
 
 //spustenie serveru

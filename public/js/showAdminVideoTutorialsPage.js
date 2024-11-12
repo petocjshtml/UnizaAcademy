@@ -46,14 +46,16 @@ function showAdminVideoTutorialsPage()
             </div>
             <div class="d-grid gap-2 d-md-block">
                <button class="btn btn-danger" id="addStudySubjectModalActivator" type="button">Pridať predmet</button>
+              
                  ${addStudySubjectModal()}        
             </div>              
         </form>
-        <br><br>
         </div>
+
+        <div class="container mt-5 card" id="studySubjects"></div>
     `;
     closeMenu();
-    enableFooter(false);
+    enableFooter(true);
     enableModalActivator("addFacultyModalActivator");
     loadObjects();
 }
@@ -68,6 +70,7 @@ function disableSelect(id){
 
 function enableModalActivator(id) {
     const button = document.getElementById(id);
+    if (button.tagName.toLowerCase() !== 'button')
     button.style.color="#bed7ff";
     const modalId = "#" + id.replace("Activator", "");
     button.setAttribute('data-bs-toggle', 'modal');
@@ -77,6 +80,7 @@ function enableModalActivator(id) {
 
 function disableModalActivator(id) {
     const button = document.getElementById(id);
+    if (button.tagName.toLowerCase() !== 'button')
     button.style.color="#bed7ff8f";
     button.removeAttribute('data-bs-toggle');
     button.removeAttribute('data-bs-target');
@@ -96,7 +100,7 @@ function addFacultyModal() {
                     <form id="addFacultyForm">
                         <div class="mb-3">
                             <label for="facultyName" class="form-label">Názov fakulty</label>
-                            <input type="text" class="form-control" id="facultyName" required>
+                            <input type="text" class="form-control" id="facultyName"  required>
                         </div>
                     </form>
                 </div>
@@ -262,8 +266,45 @@ function addStudySubjectModal() {
     `;
 }
 
+function editStudySubjectModal() {
+    return `
+        <div class="modal fade" id="editStudySubjectModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editStudySubjectLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-kmikt-blue">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color:white;" id="editStudySubjectLabel">Editácia študijného predmetu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="color:white;">
+                    <form id="editStudySubjectForm">
+                        <div class="mb-3">
+                            <label for="studySubjectNameToEdit" class="form-label">Názov študijného predmetu</label>
+                            <input type="text" class="form-control" id="studySubjectNameToEdit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studySubjectAbbreviationToEdit" class="form-label">Skratka študijného predmetu</label>
+                            <input type="text" class="form-control" id="studySubjectAbbreviationToEdit" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Zavrieť</button>
+                    <button type="button" 
+                    onclick="editStudySubject();" 
+                    id = "editStudySubjectModalButton"
+                    class="btn btn-danger" data-bs-dismiss="modal">Zmeniť študijný predmet</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    `;
+}
+
 function addFaculty(){
-    const facultyName = document.getElementById("facultyName").value;
+    const facultyName = document.getElementById("facultyName").value.trim(); // Odstránenie medzier na začiatku a na konci
+    if (facultyName.length < 1) 
+        return alert("Názov fakulty musí obsahovať aspoň jedno písmeno.");
+        
     const jsonData = { facultyName };
     const token = getUserFromLS().token;
     const endpoint_url = "/addFaculty";
@@ -278,7 +319,10 @@ function addFaculty(){
 
 function addStudyForm(){
     const facultyId = document.getElementById("studyFormFacultyValue").getAttribute("mongo-id");
-    const studyFormName = document.getElementById("studyFormName").value;
+    const studyFormName = document.getElementById("studyFormName").value.trim(); 
+    if (studyFormName.length < 1) 
+        return alert("Názov formy štúdia musí obsahovať aspoň jedno písmeno.");
+    
     const jsonData = { facultyId, studyFormName };
     const token = getUserFromLS().token;
     const endpoint_url = "/addStudyForm";
@@ -294,7 +338,10 @@ function addStudyForm(){
 function addStudyYear(){
     const facultyId = document.getElementById("studyYearFacultyValue").getAttribute("mongo-id");
     const studyFormId = document.getElementById("studyYearStudyFormValue").getAttribute("mongo-id");
-    const studyYearName = document.getElementById("studyYearName").value;
+    const studyYearName = document.getElementById("studyYearName").value.trim();
+    if (studyYearName.length < 1) 
+        return alert("Názov študijného roku musí obsahovať aspoň jedno písmeno.");
+
     const jsonData = { facultyId, studyFormId, studyYearName };
     const token = getUserFromLS().token;
     const endpoint_url = "/addStudyYear";
@@ -311,7 +358,10 @@ function addStudyProgram(){
     const facultyId = document.getElementById("studyProgramFacultyValue").getAttribute("mongo-id");
     const studyFormId = document.getElementById("studyProgramStudyFormValue").getAttribute("mongo-id");
     const studyYearId = document.getElementById("studyProgramStudyYearValue").getAttribute("mongo-id");
-    const studyProgramName = document.getElementById("studyProgramName").value;
+    const studyProgramName = document.getElementById("studyProgramName").value.trim();
+    if (studyProgramName.length < 1) 
+        return alert("Názov študijného programu musí obsahovať aspoň jedno písmeno.");
+
     const jsonData = { facultyId, studyFormId, studyYearId, studyProgramName };
     const token = getUserFromLS().token;
     const endpoint_url = "/addStudyProgram";
@@ -329,8 +379,13 @@ function addStudySubject(){
     const studyFormId = document.getElementById("studySubjectStudyFormValue").getAttribute("mongo-id");
     const studyYearId = document.getElementById("studySubjectStudyYearValue").getAttribute("mongo-id");
     const studyProgramId = document.getElementById("studySubjectStudyProgramValue").getAttribute("mongo-id");
-    const studySubjectName = document.getElementById("studySubjectName").value;
-    const studySubjectAbbreviation = document.getElementById("studySubjectAbbreviation").value;
+    const studySubjectName = document.getElementById("studySubjectName").value.trim();
+    const studySubjectAbbreviation = document.getElementById("studySubjectAbbreviation").value.trim();
+    if (studySubjectName.length < 1) 
+        return alert("Názov študijného predmetu musí obsahovať aspoň jedno písmeno.");
+    if (studySubjectAbbreviation.length < 1) 
+        return alert("Skratka študijného predmetu musí obsahovať aspoň jedno písmeno.");
+    
     const jsonData = { facultyId, studyFormId, studyYearId, studyProgramId, studySubjectName, studySubjectAbbreviation };
     const token = getUserFromLS().token;
     const endpoint_url = "/addStudySubject";
@@ -349,34 +404,38 @@ function loadObjects()
     const endpoint_url = "/getObjects";
     getData(endpoint_url).then(response => {
         filterObjectsGlobal = { ...response};
-        console.log("objects from backend",response);
-
+        console.log("objects",response);
+        findFilterAndSetUpObjects(response);
         
-        const filter = getFilter();
-        if(filter)
-        {
-            const {
-                facultySelectedIndex,
-                studyFormSelectedIndex,
-                studyYearSelectedIndex,
-                studyProgramSelectedIndex,
-            } = filter;
-
-            setUpObjects(setUpFilter(response,facultySelectedIndex,studyFormSelectedIndex,
-                studyYearSelectedIndex,studyProgramSelectedIndex)); 
-            selectObject("faculty", facultySelectedIndex);
-            selectObject("studyForm", studyFormSelectedIndex);
-            selectObject("studyYear", studyYearSelectedIndex);
-            selectObject("studyProgram", studyProgramSelectedIndex);  
-            fillDependencies();
-        }
-        else
-        {
-            setUpObjects(setUpFilter(response,0,0,0,0));    
-        }
-        setUpSelectEventListeners();
     })
     .catch(error => { console.error('Error:', error); });
+}
+
+function findFilterAndSetUpObjects(objects)
+{
+    const filter = getFilter();
+    if(filter)
+    {
+        const {
+            facultySelectedIndex,
+            studyFormSelectedIndex,
+            studyYearSelectedIndex,
+            studyProgramSelectedIndex,
+        } = filter;
+
+        setUpObjects(setUpFilter(objects,facultySelectedIndex,studyFormSelectedIndex,
+            studyYearSelectedIndex,studyProgramSelectedIndex)); 
+        selectObject("faculty", facultySelectedIndex);
+        selectObject("studyForm", studyFormSelectedIndex);
+        selectObject("studyYear", studyYearSelectedIndex);
+        selectObject("studyProgram", studyProgramSelectedIndex);  
+        fillDependencies();
+    }
+    else
+    { 
+        setUpObjects(setUpFilter(objects,0,0,0,0));    
+    }
+    setUpSelectEventListeners();
 }
 
 function getSelectedDropdown(dropdownId) 
@@ -427,6 +486,7 @@ function setUpFilter(objectsAll, facultyIndex, studyFormIndex, studyYearIndex, s
 
     // Ak nie sú žiadne fakulty, nastavíme všetky polia na prázdne
     if (objects.faculties.length === 0) {
+        showStudySubjects([]); //schovanie predmetov
         return {
             faculties: [],
             studyForms: [],
@@ -446,6 +506,7 @@ function setUpFilter(objectsAll, facultyIndex, studyFormIndex, studyYearIndex, s
         objects.studyYears = [];
         objects.studyPrograms = [];
         objects.studySubjects = [];
+        showStudySubjects([]); 
         return objects;
     }
 
@@ -460,6 +521,7 @@ function setUpFilter(objectsAll, facultyIndex, studyFormIndex, studyYearIndex, s
     if (objects.studyYears.length === 0) {
         objects.studyPrograms = [];
         objects.studySubjects = [];
+        showStudySubjects([]);
         return objects;
     }
 
@@ -474,6 +536,7 @@ function setUpFilter(objectsAll, facultyIndex, studyFormIndex, studyYearIndex, s
     // Ak nie sú žiadne študijné programy, vynulujeme predmety
     if (objects.studyPrograms.length === 0) {
         objects.studySubjects = [];
+        showStudySubjects([]);
         return objects;
     }
 
@@ -486,9 +549,9 @@ function setUpFilter(objectsAll, facultyIndex, studyFormIndex, studyYearIndex, s
             studySubject.studyProgramId === objects.studyPrograms[studyProgramIndex]._id
     );
 
+    showStudySubjects(objects.studySubjects);
     return objects;
 }
-
 
 function facultyChanged()
 {
@@ -543,13 +606,13 @@ function studyProgramChanged()
     const studyFormSelectedIndex = studyFormSelect.selectedIndex;
     const studyYearSelectedIndex = studyYearSelect.selectedIndex;
     const studyProgramSelectedIndex = studyProgramSelect.selectedIndex;
-    const filteredNewObjects = setUpFilter(filterObjectsGlobal,facultySelectedIndex,studyFormSelectedIndex,
-                               studyYearSelectedIndex,studyProgramSelectedIndex);
+    const filteredNewObjects = setUpFilter(filterObjectsGlobal,facultySelectedIndex,
+        studyFormSelectedIndex,studyYearSelectedIndex,studyProgramSelectedIndex);
     setUpObjects(filteredNewObjects);
     selectObject("faculty", facultySelectedIndex);
     selectObject("studyForm", studyFormSelectedIndex);
     selectObject("studyYear", studyYearSelectedIndex);
-    selectObject("studyProgram", studyYearSelectedIndex);
+    selectObject("studyProgram", studyProgramSelectedIndex);
     fillDependencies(); 
     saveFilter();
 }
@@ -613,8 +676,6 @@ function selectObject(selectId, index) {
         console.error(`Element s ID '${selectId}' neexistuje.`);
     }
 }
-
-
 
 function setUpObjects(objects)
 {
@@ -709,6 +770,119 @@ function selectOptionByIdAndValue(selectId, value) {
     } else {
         console.error(`Element s ID '${selectId}' neexistuje.`);
     }
+}
+
+function focusModalInput(modalId) {
+    // Mapovanie modalu na príslušný input element
+    const inputMap = {
+        "addFacultyModal": "facultyName",
+        "addStudyFormModal": "studyFormName",
+        "addStudyYearModal": "studyYearName",
+        "addStudyProgramModal": "studyProgramName",
+        "addStudySubjectModal": "studySubjectName"
+    };
+
+    // Získanie ID vstupného elementu podľa otvoreného modalu
+    const inputId = inputMap[modalId];
+    const inputElement = document.getElementById(inputId);
+
+    // Ak existuje input element, nastavíme naň focus
+    if (inputElement) {
+        inputElement.focus();
+    }
+}
+
+// input modal autofocus
+document.addEventListener("shown.bs.modal", (event) => {
+    const modalId = event.target.id;
+    focusModalInput(modalId);
+});
+
+function showStudySubjects(studySubjects) 
+{
+     
+     const subjects = [...studySubjects];
+     const subjectsContainer = document.getElementById("studySubjects");
+     if(subjects.length === 0)
+     {
+        return subjectsContainer.style.display = "none";
+     }
+     subjectsContainer.style.display = "block";
+    
+     let html = `<div class="row"> ${editStudySubjectModal()}`;
+     subjects.forEach((subject) => {
+        html += `
+        <!-- Karta študijného predmetu s kruhovým dizajnom -->
+        <div class="col-md-6 col-sm-12 col-lg-3 mb-2 study-subject"   
+        title="${subject.studySubjectName}">
+           
+            <div class="d-flex justify-content-center mb-3">
+                <button class="btn btn-sm btn-primary me-2" title="Edit" 
+                onclick="setUpEditSubjectModal(event)"
+                subject-name="${subject.studySubjectName}"
+                subject-abbrevation="${subject.studySubjectAbbreviation}"
+                mongo-id="${subject._id}" 
+                data-bs-toggle="modal" 
+                data-bs-target="#editStudySubjectModal">
+                
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-sm btn-danger" mongo-id="${subject._id}" onclick="deleteSubject(event);" title="Delete">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+            <div 
+            onclick="showAdminStudySubjectPage(event);" 
+            mongo-id="${subject._id}"
+            subject-name="${subject.studySubjectName}"
+            subject-abbrevation="${subject.studySubjectAbbreviation}">
+            <h2 class="subject-title">${subject.studySubjectAbbreviation}</h2>
+            <img src="images/book.png" alt="Study Item" class="book-icon">
+            </div>
+        </div>`;
+     });
+     html += "</div>";
+     subjectsContainer.innerHTML = html; 
+}
+
+function setUpEditSubjectModal(event)
+{
+    const editButton = event.currentTarget;
+    const mongoId = editButton.getAttribute("mongo-id");
+    const subjectName = editButton.getAttribute("subject-name");
+    const subjectAbbrevation = editButton.getAttribute("subject-abbrevation");
+    const modalButton = document.getElementById("editStudySubjectModalButton");
+    modalButton.setAttribute("mongo-id",mongoId);
+    document.getElementById("studySubjectNameToEdit").value = subjectName;
+    document.getElementById("studySubjectAbbreviationToEdit").value = subjectAbbrevation;
+}
+
+function editStudySubject() {
+    const modalButton = document.getElementById("editStudySubjectModalButton");
+    const mongoId = modalButton.getAttribute("mongo-id");
+    const studySubjectName = document.getElementById("studySubjectNameToEdit").value.trim();
+    const studySubjectAbbreviation = document.getElementById("studySubjectAbbreviationToEdit").value.trim();
+    const userFromLs = getUserFromLS();
+    const jsonData = { studySubjectName, studySubjectAbbreviation };
+
+    if (studySubjectName.length < 1) 
+        return alert("Názov študijného predmetu musí obsahovať aspoň jedno písmeno.");
+    if (studySubjectAbbreviation.length < 1) 
+        return alert("Skratka študijného predmetu musí obsahovať aspoň jedno písmeno.");
+
+    putDataLoggedIn(mongoId, jsonData, "/editStudySubject", userFromLs.token).then(response => {
+        if(response.success) { showAdminVideoTutorialsPage(); } })
+    .catch(error => { console.error('Error:', error); });
+}
+
+function deleteSubject(event)
+{
+    const deleteButton = event.currentTarget;
+    const mongoId = deleteButton.getAttribute("mongo-id");
+    const userFromLs = getUserFromLS();
+    deleteDataLoggedIn(mongoId,"/deleteStudySubject", userFromLs.token).then(response => {
+        if(response.success) { showAdminVideoTutorialsPage(); } })
+    .catch(error => { console.error('Error:', error); });
 }
 
 

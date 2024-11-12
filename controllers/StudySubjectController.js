@@ -31,6 +31,18 @@ class StudySubjectController {
          throw new Error(`Error updating study subject: ${error.message}`);
       }
    }
+
+   async deleteStudySubject(id) {
+      try {
+          const deletedStudySubject = await StudySubject.findByIdAndDelete(id);
+          if (!deletedStudySubject) {
+              return { success: false, message: "Study subject not found." };
+          }
+          return { success: true, message: "Study subject deleted successfully." };
+      } catch (error) {
+          throw new Error(`Error deleting study subject: ${error.message}`);
+      }
+  }
 }
 
 module.exports = StudySubjectController;

@@ -76,4 +76,22 @@ základné orámovanie tématického elementu
     background-color: red; 
 }
 
+hr {
+    border: none;
+    background-color: white !important;
+    height: 2px;
+    opacity: 1;
+}
+
+.study-subject {
+    text-align: center;
+    cursor: pointer;
+}
+
+.study-subject img {
+    width: 50%;
+}
+
+
+
 
