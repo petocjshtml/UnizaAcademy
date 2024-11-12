@@ -779,7 +779,8 @@ function focusModalInput(modalId) {
         "addStudyFormModal": "studyFormName",
         "addStudyYearModal": "studyYearName",
         "addStudyProgramModal": "studyProgramName",
-        "addStudySubjectModal": "studySubjectName"
+        "addStudySubjectModal": "studySubjectName",
+        "addVideotutorialModal": "videoTutorialLink",
     };
 
     // Získanie ID vstupného elementu podľa otvoreného modalu

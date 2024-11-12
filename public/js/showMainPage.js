@@ -13,7 +13,7 @@ function showMainPage()
     closeMenu();
     enableFooter(true);
    // setUpVideoStartTime("eLearning",1);
-    showAdminVideoTutorialsPage();
+   showAdminStudySubjectPage();
 }
 
 function showHeader()

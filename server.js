@@ -20,6 +20,7 @@ const mongoose = require("mongoose");
 const jwt = require('jsonwebtoken');
 const verifyToken = require('./my_modules/authMiddleware'); 
 const checkAdmin = require('./my_modules/checkAdmin'); 
+const checkVideo = require('./my_modules/checkVideo'); 
 
 require("dotenv").config();
 
@@ -182,7 +183,14 @@ app.delete("/deleteStudySubject/:id", verifyToken, async (req, res) => {
     }
 });
 
-
+app.post('/check-video', async (req, res) => {
+    try {
+        const videoInfo = await checkVideo(req.body.videoUrl);
+        res.status(200).send(videoInfo);
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
 
 //spustenie serveru
 app.listen(port, () => {
