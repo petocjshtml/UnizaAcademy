@@ -18,6 +18,7 @@ function showVideoPlayer(videoTitle,videoLink,videoTime)
             <button class="btn btn-secondary me-3" onclick="stopVideoPlayer();showAdminStudySubjectPage();"  type="button">Naspäť</button>
        </div>
        <hr>
+       <div style="display:none;" id="videoPlayerIsPrezent">videoPlayerIsPrezent</div>
        <div id="videoPlayer"></div>
     </div>
     `;
@@ -89,16 +90,18 @@ function onPlayerReady(event) {
         player.playVideo();
     });
 
-    // Aktualizácia času prehrávania
-    // Spustenie intervalu iba ak je stránka so zobrazeným prehrávačom
     if (isVideoPlayerVisible) {
         updateInterval = setInterval(() => {
-            if (isVideoPlayerVisible && player.getPlayerState() === YT.PlayerState.PLAYING) {
-                const currentTime = player.getCurrentTime();
-                pageInfo.innerHTML = `Aktuálny čas: ${formatTime(currentTime)}`;
+            if (isVideoPlayerVisible && isVideoPlayerPrezent() && player.getPlayerState() === YT.PlayerState.PLAYING) {
+                pageInfo.innerHTML = formatTime(player.getCurrentTime());
             }
         }, 1000);
     }
+}
+
+function isVideoPlayerPrezent()
+{
+    return document.getElementById("videoPlayerIsPrezent").innerHTML.trim() === "videoPlayerIsPrezent";
 }
 
 function stopVideoPlayer() {
