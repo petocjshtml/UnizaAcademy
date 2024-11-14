@@ -6,46 +6,25 @@ function showAboutUsPage()
     root.innerHTML=`
     <div class="container mt-5 card">
     <h1 class="display-5 fw-bold mb-5 text-center">Skupina administrátorov</h1>
+    <p style="color:#f37429;">Ak máte nápady na nové videotutoriály,
+      neváhajte nás kontaktovať na jednú s naších uvedených e-mailových adries</p>
     <table class="table table-hover table-transparent text-center">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Hlavný administrátor</th>
-            <th scope="col">Tel. číslo</th>
+            <th scope="col">Prezývka</th>
+            <th scope="col">E-mail</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="admins">
         <tr>
             <th scope="row">1</th>
             <td>Ing. Uhrina Miroslav, PhD.</td>
             <td>+421 41 513 2253</td>
         </tr>
         </tbody>
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Ďalší pracovníci stránky</th>
-            <th scope="col">E-mail</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Ing. Radilová Martina, PhD.</td>
-            <td>martina.radilova@fel.uniza.sk</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>doc. Ing. Počta Peter, PhD.</td>
-            <td>peter.pocta@fel.uniza.sk</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>doc. Ing. Vaculík Martin, PhD.</td>
-            <td>martin.vaculik@fel.uniza.sk</td>
-        </tr>
-        </tbody>
     </table>
+     
     </div>
 
     <div class="container mt-5 card">
@@ -55,4 +34,22 @@ function showAboutUsPage()
     `;
     closeMenu();
     enableFooter(true);
+    loadAdmins();
+}
+
+function loadAdmins() {
+    getData("/getAllAdmins").then(admins => {
+        var html = "";
+        admins.forEach((admin,index) => {
+            html += `
+            <tr>
+                <th scope="row">${index+1}</th>
+                <td>${admin.nickName}</td>
+                <td>${admin.email}</td>
+            </tr>
+            `;
+        });
+        document.getElementById("admins").innerHTML = html;
+    })
+    .catch(error => { console.error('Error:', error); });
 }

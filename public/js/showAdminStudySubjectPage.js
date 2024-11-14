@@ -4,6 +4,7 @@ function showAdminStudySubjectPage()
     const studySubjectMongoId = page_info.getAttribute("study-subject-id");
     const studySubjectName = page_info.getAttribute("study-subject-name");
     const root = document.getElementById("root");
+
     page_info.innerHTML= studySubjectName;
     root.innerHTML=`
      <div class="container mt-5 card">
@@ -48,7 +49,8 @@ function showStudySubjectVideotutorials(videotutorialsAll) {
     
     filteredVideotutorialsBySubject.forEach((videotutorial) => {
         videotutorialsContainer.innerHTML += `
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" 
+        onclick="showVideoPlayer('${videotutorial.title}','${videotutorial.link}','${videotutorial.duration}');">
             <div class="video-card">
                 <div class="thumbnail-link">
                     <img src="${videotutorial.thumbnail}" alt="Video Thumbnail" class="thumbnail">
@@ -63,7 +65,7 @@ function showStudySubjectVideotutorials(videotutorialsAll) {
                     <p class="video-stats">${videotutorial.views} views • ${videotutorial.likes} likes</p>
                     <div class="tags">
                         ${videotutorial.tags.map(tag => `
-                            <span class="tag" style="background-color: ${tag.color};">${tag.tagName}</span>
+                            <span class="tag" style="background-color: ${tag.color};color:${getTextColorBasedOnBackground(rgbStringToHex(tag.color))}">${tag.tagName}</span>
                         `).join('')}
                     </div>
                 </div>

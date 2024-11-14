@@ -69,6 +69,15 @@ app.post("/loginUser", async (req, res) => {
     }
 });
 
+app.get("/getAllAdmins", async (req, res) => {
+    try {
+        const users = await userController.getAllAdmins();
+        res.status(200).send(users);
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
 //objekty
 app.get("/getObjects", async (req, res) => {
     try {
@@ -254,6 +263,7 @@ app.get("/getTags", verifyToken, async (req, res) => {
         res.status(400).send({ error: error.message });
     }
 });
+
 
 //spustenie serveru
 app.listen(port, () => {

@@ -12,8 +12,36 @@ function showMainPage()
     `;
     closeMenu();
     enableFooter(true);
+    loadStudySubjects();
    // setUpVideoStartTime("eLearning",1);
 }
+
+function setUpStudySubjectsToContainer(studySubjects){
+  const container = document.getElementById("studyFieldsContainer");
+  var html = "";
+  studySubjects.forEach(studySubject => {
+    html += `
+    <div class="col-md-4 col-sm-6 col-6 mb-5">
+        <img src="images/mt_subject_videotutorial.png" alt="${studySubject}" class="icon-circle">
+        <div class="icon-text fs-4">${studySubject}</div>
+    </div>
+    `;
+  });
+  container.innerHTML = html;
+  console.log(studySubjects);
+}
+
+function loadStudySubjects()
+{
+    const endpoint_url = "/getObjects";
+    getData(endpoint_url).then(response => {
+        const studySubjects = response.studySubjects.map((subject) => subject.studySubjectName);
+        setUpStudySubjectsToContainer(studySubjects);
+    })
+    .catch(error => { console.error('Error:', error); });
+}
+
+
 
 function showHeader()
 {
@@ -134,33 +162,8 @@ function getAllStudyFieldsHtml()
 {
     return`
     <div class="container my-5 card">
-        <h1 class="display-5 fw-bold mb-5 text-center">Túto sekciu nahradiť niečim iným probably</h1>
-        <div class="row text-center justify-content-center mt-4">
-            <div class="col-md-4 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_odborov/feit/web_automatizacia@4x.png" alt="Automatizácia" class="icon-circle">
-                <div class="icon-text fs-4">Automatizácia</div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_odborov/feit/web_biomedicineske_inzinierstvo@4x.png" alt="Biomedicínske inžinierstvo" class="icon-circle">
-                <div class="icon-text fs-4">Biomedicínske inžinierstvo</div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_odborov/feit/web_elektrotechnika@4x.png" alt="Elektrotechnika" class="icon-circle">
-                <div class="icon-text fs-4">Elektrotechnika</div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_odborov/feit/web_multimedialne_technologie@4x.png" alt="Multimediálne technológie" class="icon-circle">
-                <div class="icon-text fs-4">Multimediálne technológie</div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_odborov/feit/web_optoelektronika@4x.png" alt="Elektrooptika" class="icon-circle">
-                <div class="icon-text fs-4">Elektrooptika</div>
-            </div>
-            <div class="col-md-4 col-sm-6 col-6 mb-5">
-                <img src="images/mriezka_odborov/feit/web_telekomunikacie@4x.png" alt="Komunikačné a informačné technológie" class="icon-circle">
-                <div class="icon-text fs-4">Komunikačné a informačné technológie</div>
-            </div>
-        </div>
+        <h1 class="display-5 fw-bold mb-5 text-center">Výukové predmety</h1>
+        <div class="row text-center mt-4" id="studyFieldsContainer"></div>
     </div>
     `;
 }

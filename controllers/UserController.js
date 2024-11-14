@@ -92,6 +92,22 @@ class UserController {
          throw new Error(`Chyba pri kontrole admin práv: ${error.message}`);
       }
    }
+
+   async getAllAdmins() {
+      try {
+          const admins = await User.find({ isAdmin: true });
+          const adminsWithoutPasswords = admins.map(admin => {
+              const adminObject = admin.toObject();
+              delete adminObject.password;
+              return adminObject;
+          });
+          return adminsWithoutPasswords;
+      } catch (error) {
+          throw new Error(`Error fetching admins: ${error.message}`);
+      }
+  }
+  
+  
 }
 
 module.exports = UserController;
