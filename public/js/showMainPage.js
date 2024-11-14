@@ -13,7 +13,6 @@ function showMainPage()
     closeMenu();
     enableFooter(true);
    // setUpVideoStartTime("eLearning",1);
-   showAdminStudySubjectPage();
 }
 
 function showHeader()
@@ -51,8 +50,9 @@ function showHeaderForLoggedInUser(userFromLS)
 {
     const header = document.getElementById("header");
     const isAdmin = userFromLS.isAdmin;
-    const nickName = isAdmin ? userFromLS.nickName + " (admin)" : userFromLS.nickName;
+    const nickName = userFromLS.nickName;
     const videoTutorialsOnclick = isAdmin ? "showAdminVideoTutorialsPage()" : "showUserVideoTutorialsPage()";
+    const menuItemName = isAdmin ? "Správa videotutoriálov" : "Videotutoriály";
     header.innerHTML= `
     <nav class="navbar navbar-expand-lg navbar-dark bg-kmikt-blue fs-5 ">
     <div class="container-fluid">
@@ -63,7 +63,7 @@ function showHeaderForLoggedInUser(userFromLS)
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-link active text-white ms-3 " aria-current="page" onclick="showAboutUsPage()" href="#">O nás</a>
-          <a class="nav-link active text-white ms-3 " aria-current="page" onclick="${videoTutorialsOnclick}" href="#">Videotutoriály</a>
+          <a class="nav-link active text-white ms-3 " aria-current="page" onclick="${videoTutorialsOnclick}" href="#">${menuItemName}</a>
         </div>
         <!-- Položky napravo -->
         <div class="navbar-nav ms-auto">

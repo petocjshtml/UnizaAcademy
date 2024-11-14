@@ -2,7 +2,7 @@ function showAdminVideoTutorialsPage()
 {
     const page_info = document.getElementById("page-info");
     const root = document.getElementById("root");
-    page_info.innerHTML="Stránka pre správu videí";
+    page_info.innerHTML="Filtrované predmety";
     root.innerHTML=`
         <div class="container mt-5 card">
         <form>
@@ -801,7 +801,6 @@ document.addEventListener("shown.bs.modal", (event) => {
 
 function showStudySubjects(studySubjects) 
 {
-     
      const subjects = [...studySubjects];
      const subjectsContainer = document.getElementById("studySubjects");
      if(subjects.length === 0)
@@ -833,7 +832,7 @@ function showStudySubjects(studySubjects)
                 </button>
             </div>
             <div 
-            onclick="showAdminStudySubjectPage(event);" 
+            onclick="setUpStudySubjectPageInfo('${subject.studySubjectName}', '${subject._id}');" 
             mongo-id="${subject._id}"
             subject-name="${subject.studySubjectName}"
             subject-abbrevation="${subject.studySubjectAbbreviation}">
@@ -844,6 +843,14 @@ function showStudySubjects(studySubjects)
      });
      html += "</div>";
      subjectsContainer.innerHTML = html; 
+}
+
+function setUpStudySubjectPageInfo(studySubjectName,studySubjectId)
+{
+    const page_info = document.getElementById("page-info");
+    page_info.setAttribute("study-subject-name",studySubjectName);
+    page_info.setAttribute("study-subject-id",studySubjectId);
+    showAdminStudySubjectPage();
 }
 
 function setUpEditSubjectModal(event)

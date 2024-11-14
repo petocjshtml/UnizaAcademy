@@ -15,9 +15,11 @@ function checkVideo(url) {
                     ? `${Math.floor(durationMatch[1] / 3600000)}:${Math.floor((durationMatch[1] % 3600000) / 60000).toString().padStart(2, '0')}:${Math.floor((durationMatch[1] % 60000) / 1000).toString().padStart(2, '0')}`
                     : null;
 
-                const likeTextMatch = data.match(/"label":"([\d,.\s]+)\s*likes"/i);
-                const likeText = likeTextMatch ? likeTextMatch[1] : null;
-                const likeCount = likeText ? parseInt(likeText.replace(/[,.]/g, ''), 10) : null;
+                const likesMatch = data.match(/"accessibilityText":"([^"]+)"/);
+                const likeText = likesMatch ? likesMatch[1] : null;
+                const likeNumber = likeText.replace(/\s/g, '').match(/\d+/);
+                const likeCount = likeNumber ? parseInt(likeNumber[0], 10) : null;
+
                 resolve({
                     exists: true,
                     duration,

@@ -10,6 +10,10 @@ const StudyProgramController = require("./controllers/StudyProgramController");
 const studyProgramController = new StudyProgramController();
 const StudySubjectController = require("./controllers/StudySubjectController");
 const studySubjectController = new StudySubjectController();
+const VideotutorialController =  require("./controllers/VideotutorialController");
+const videotutorialController = new VideotutorialController();
+const TagController = require("./controllers/TagController");
+const tagController = new TagController();
 const AppController = require("./controllers/AppController");
 const appController = new AppController();
 
@@ -183,10 +187,69 @@ app.delete("/deleteStudySubject/:id", verifyToken, async (req, res) => {
     }
 });
 
-app.post('/check-video', async (req, res) => {
+app.post('/checkVideotutorial', verifyToken, async (req, res) => {
     try {
-        const videoInfo = await checkVideo(req.body.videoUrl);
-        res.status(200).send(videoInfo);
+        if(await checkAdmin(req, res, userController)) 
+        {
+            const videoInfo = await checkVideo(req.body.youtubeUrl);
+            res.status(200).send(videoInfo);
+        } 
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+app.post("/addVideotutorial", verifyToken, async (req, res) => {
+    try {
+        if (await checkAdmin(req, res, userController)) 
+        { 
+            await tagController.addTags(req.body.tags);
+            const response = await videotutorialController.addVideotutorial(req.body);
+            res.status(200).send(response);
+        }
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+app.get("/getVideotutorials",verifyToken, async (req, res) => {
+    try {
+        const videotutorials = await videotutorialController.getAllVideotutorials();
+        res.status(200).send(videotutorials);
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+//public endpoint bez zabezpečenia
+app.get("/getPublicVideotutorials", async (req, res) => {
+    try {
+        const publicVideotutorials = await videotutorialController.getAllPublicVideotutorials();
+        res.status(200).send(publicVideotutorials);
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+app.delete("/deleteVideotutorial/:id", verifyToken, async (req, res) => {
+    try {
+        if(await checkAdmin(req, res, userController)) 
+        {
+            const response = await videotutorialController.deleteVideotutorial(req.params.id);
+            res.status(200).send(response);
+        }
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+app.get("/getTags", verifyToken, async (req, res) => {
+    try {
+        if (await checkAdmin(req, res, userController)) 
+        { 
+            const tags = await tagController.getTags();
+            res.status(200).send(tags);
+        }
     } catch (error) {
         res.status(400).send({ error: error.message });
     }
