@@ -13,9 +13,6 @@ function showVideoPlayer(videoTitle,videoLink,videoTime)
         case "admin":
             backRedirect = "stopVideoPlayer();showAdminStudySubjectPage();"
         break;
-        case "user":
-            backRedirect = "stopVideoPlayer();"
-        break;
         default:
             backRedirect = "stopVideoPlayer();showStudySubjectPage();"
         break;

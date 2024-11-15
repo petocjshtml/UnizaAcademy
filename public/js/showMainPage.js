@@ -81,7 +81,7 @@ function showHeaderForLoggedInUser(userFromLS)
     const header = document.getElementById("header");
     const isAdmin = userFromLS.isAdmin;
     const nickName = userFromLS.nickName;
-    const videoTutorialsOnclick = isAdmin ? "showAdminVideoTutorialsPage()" : "showUserVideoTutorialsPage()";
+    const videoTutorialsOnclick = isAdmin ? "showAdminVideoTutorialsPage()" : "showVideoTutorialsPage()";
     const menuItemName = isAdmin ? "Správa videotutoriálov" : "Videotutoriály";
     header.innerHTML= `
     <nav class="navbar navbar-expand-lg navbar-dark bg-kmikt-blue fs-5 ">

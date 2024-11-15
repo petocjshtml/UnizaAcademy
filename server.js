@@ -88,6 +88,16 @@ app.get("/getObjects", async (req, res) => {
     }
 });
 
+//objekty pre prihlásených
+app.get("/getObjectsLoggedIn",verifyToken, async (req, res) => {
+    try {
+        const response = await appController.getObjectsLoggedIn();
+        res.status(200).send(response);
+    } catch (error) {
+       res.status(400).send({ error: error.message });
+    }
+});
+
 //chránené backend endpointy pomocou auth middlewaru //
 
 //zmena prezývky

@@ -6,8 +6,7 @@ function showAboutUsPage()
     root.innerHTML=`
     <div class="container mt-5 card">
     <h1 class="display-5 fw-bold mb-5 text-center">Skupina administrátorov</h1>
-    <p style="color:#f37429;">Ak máte nápady na nové videotutoriály,
-      neváhajte nás kontaktovať na jednú s naších uvedených e-mailových adries</p>
+  
     <table class="table table-hover table-transparent text-center">
         <thead>
         <tr>

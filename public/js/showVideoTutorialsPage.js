@@ -428,6 +428,8 @@ function setUpTagsFilter(tags)
 }
 
 function getCurrentFilterStatus() {
+    document.getElementById("existTagsContainer").innerHTML = "";
+    document.getElementById("tagsContainer").innerHTML = "";
     const selectRadioFromLs = nacitatZLocalStorage("filterStatus");
     if(selectRadioFromLs)
     {
@@ -442,7 +444,21 @@ function getCurrentFilterStatus() {
         } else {
             document.getElementById("classificationFilterContainer").style.display = "none";
             document.getElementById("tagsFilterContainer").style.display = "block";
-            const selectedTagsLs = nacitatZLocalStorage("selectedTags") || [];
+            const selectedTagsLs = nacitatZLocalStorage("selectedTags");
+            if (selectedTagsLs && selectedTagsLs.length > 0) {
+                selectedTagsLs.forEach(tagName => {
+                    const tagElement = Array.from(document.querySelectorAll('#existTagsContainer span')).find(
+                        el => el.textContent === tagName
+                    );
+                    if (tagElement) {
+                        chooseTag(tagElement);
+                    }
+                });
+                logSelectedTags();
+            } else {
+                showStudySubjectsNoAdmin(publicObjects.studySubjects);
+            }
+
             setUpTagsFilter(publicObjects.tags);
             if (selectedTagsLs.length > 0) {
                 selectedTagsLs.forEach(tagName => {
@@ -507,6 +523,7 @@ function logSelectedTags() {
     const filtered = filterSubjectsByTags(selectedTags, publicObjects.studySubjects, publicObjects.videoTutorials);
     showStudySubjectsNoAdmin(filtered);
     publicObjects.selectedTags = selectedTags;
+    ulozitDoLocalStorage("selectedTags", selectedTags);
     if(selectedTags.length === 0)
     {
         showStudySubjectsNoAdmin(publicObjects.studySubjects);
