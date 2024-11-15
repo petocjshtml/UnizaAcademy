@@ -4,8 +4,7 @@
   "description": "Úložisko pre videá - platforma YouTube (kategória - nezaradené (bez reklám) - nesmú byť public)\r # Databáza\r No Sql - Mongo db\r # Backend technológia\r Node js, práca s db - mongoose\r # Plánované objekty v db\r používatel -> id | meno a priezvisko | nickname | email | heslo | isAdmin",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +13,6 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.7.1",
-    "nodemon": "^3.1.7"
+    "mongoose": "^8.7.1"
   }
 }
