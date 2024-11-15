@@ -199,3 +199,9 @@ hr {
     opacity: 1;
 }
 
+.choosenTags {
+    background-color: #f37429;
+    border-radius: 15px;
+    padding: 15px;
+    min-height: 72px;
+}

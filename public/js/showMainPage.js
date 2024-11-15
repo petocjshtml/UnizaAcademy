@@ -27,8 +27,10 @@ function setUpStudySubjectsToContainer(studySubjects){
     </div>
     `;
   });
-  container.innerHTML = html;
-  console.log(studySubjects);
+  if(container)
+  {
+    container.innerHTML = html;
+  }
 }
 
 function loadStudySubjects()
@@ -217,5 +219,8 @@ function closeMenu() {
 
 function logOutUser(){
   vymazatZLocalStorage("user");
+  vymazatZLocalStorage("filterNoAdmin");
+  vymazatZLocalStorage("filterStatus");
+  vymazatZLocalStorage("filter");
   showMainPage();
 }

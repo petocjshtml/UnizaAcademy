@@ -6,6 +6,20 @@ function showVideoPlayer(videoTitle,videoLink,videoTime)
 {
     const page_info = document.getElementById("page-info");
     const root = document.getElementById("root");
+    videoTitle = decodeURIComponent(videoTitle);
+    var backRedirect = "";
+    switch(getLoginStatus())
+    {
+        case "admin":
+            backRedirect = "stopVideoPlayer();showAdminStudySubjectPage();"
+        break;
+        case "user":
+            backRedirect = "stopVideoPlayer();"
+        break;
+        default:
+            backRedirect = "stopVideoPlayer();showStudySubjectPage();"
+        break;
+    }
     isVideoPlayerVisible = true;
     page_info.innerHTML= videoTime;
     root.innerHTML=`
@@ -15,7 +29,7 @@ function showVideoPlayer(videoTitle,videoLink,videoTime)
             <button class="btn btn-danger me-3"  type="button">Prehrať</button>
             <button class="btn btn-primary me-3"  type="button">Zastaviť</button>
             <button class="btn btn-success me-3"  type="button">Celá obrazovka</button>
-            <button class="btn btn-secondary me-3" onclick="stopVideoPlayer();showAdminStudySubjectPage();"  type="button">Naspäť</button>
+            <button class="btn btn-secondary me-3" onclick="${backRedirect}"  type="button">Naspäť</button>
        </div>
        <hr>
        <div style="display:none;" id="videoPlayerIsPrezent">videoPlayerIsPrezent</div>

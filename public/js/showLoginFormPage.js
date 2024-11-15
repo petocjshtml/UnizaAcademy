@@ -43,6 +43,9 @@ function loginUser(event) {
         if(response.success)
         {
             ulozitDoLocalStorage("user", response.user);
+            vymazatZLocalStorage("filterNoAdmin");
+            vymazatZLocalStorage("filterStatus");
+            vymazatZLocalStorage("filter");
             showMainPage();
         }
         else

@@ -3,6 +3,8 @@ const StudyForm = require("../models/StudyForm");
 const StudyProgram = require("../models/StudyProgram");
 const StudySubject = require("../models/StudySubject");
 const StudyYear = require("../models/StudyYear");
+const Videotutorial = require("../models/Videotutorial");
+const Tag = require("../models/Tag");
 
 class AppController {
   async getObjects() {
@@ -12,6 +14,8 @@ class AppController {
       const studyPrograms = await StudyProgram.find();
       const studySubjects = await StudySubject.find();
       const studyYears = await StudyYear.find();
+      const videoTutorials = await Videotutorial.find({ status: "public" });
+      const tags = await Tag.find();
 
       return {
         faculties,
@@ -19,6 +23,8 @@ class AppController {
         studyPrograms,
         studySubjects,
         studyYears,
+        videoTutorials,
+        tags,
       };
     } catch (error) {
       throw new Error(`Error fetching objects: ${error.message}`);
