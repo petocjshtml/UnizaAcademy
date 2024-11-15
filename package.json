@@ -1,8 +1,8 @@
 {
   "name": "unizaacademy",
   "version": "1.0.0",
-  "description": "Úložisko pre videá - platforma YouTube (kategória - nezaradené (bez reklám) - nesmú byť public)\r # Databáza\r No Sql - Mongo db\r # Backend technológia\r Node js, práca s db - mongoose\r # Plánované objekty v db\r používatel -> id | meno a priezvisko | nickname | email | heslo | isAdmin",
-  "main": "index.js",
+  "description": "Webstránka na výuku študentov formou videotutorialov",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
