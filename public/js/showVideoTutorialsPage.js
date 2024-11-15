@@ -78,15 +78,33 @@ function showVideoTutorialsPage()
 
 var publicObjects = null;
 function loadFilteredSubjects() {
-    const endpoint_url = "/getObjects";
-    getData(endpoint_url).then(response => {
-        const filtered = filterDataByVideoTutorials(response);
-        publicObjects = { ...filtered };
-        getCurrentFilterStatus();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+    if(getLoginStatus() === "user")
+    {
+        //načíta public aj univerzitné videá
+        const endpoint_url = "/getObjectsLoggedIn";
+        const token = getUserFromLS().token;
+        getDataLoggedIn(endpoint_url, token).then(response => {
+            const filtered = filterDataByVideoTutorials(response);
+            publicObjects = { ...filtered };
+            getCurrentFilterStatus();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    else
+    {
+        //načíta iba public videá
+        const endpoint_url = "/getObjects";
+        getData(endpoint_url).then(response => {
+            const filtered = filterDataByVideoTutorials(response);
+            publicObjects = { ...filtered };
+            getCurrentFilterStatus();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    } 
 }
 
 function findFilterAndSetUpObjectsNoAdmin(objects)
