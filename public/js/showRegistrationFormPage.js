@@ -8,15 +8,15 @@ function showRegistrationFormPage()
         <form id="registrationForm" onsubmit="registerUser(event)">
             <div class="mb-3">
                 <label for="email" class="form-label">Študenský email &nbsp;&nbsp;&nbsp; <span id="registrationFormEmailMessage" style="color:#f37429;"></span></label>
-                <input type="email" value="branomrkvicka@stud.uniza.sk" name="email" class="form-control" minlength="3" maxlength="50" placeholder="Zadajte študenský email" required>
+                <input type="email" name="email" class="form-control" minlength="3" maxlength="50" placeholder="Zadajte študenský email" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Prezývka  &nbsp;&nbsp;&nbsp; <span id="registrationFormNickNameMessage" style="color:#f37429;"></span></label>
-                <input type="text" value="branoMrkva" name="nickName" class="form-control" minlength="4" maxlength="12"  placeholder="Zadajte prezývku" required>
+                <input type="text"  name="nickName" class="form-control" minlength="4" maxlength="12"  placeholder="Zadajte prezývku" required>
             </div>
             <div class="mb-3">
                 <label for="heslo" class="form-label">Heslo</label>
-                <input type="password" value="MrkvaBrano123" name="password" class="form-control" minlength="8" maxlength="20"  placeholder="Zadajte heslo" required>
+                <input type="password"  name="password" class="form-control" minlength="8" maxlength="20"  placeholder="Zadajte heslo" required>
             </div>
             <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" required>
