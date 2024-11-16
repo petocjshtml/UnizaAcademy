@@ -27,6 +27,7 @@ const checkAdmin = require('./my_modules/checkAdmin');
 const checkVideo = require('./my_modules/checkVideo'); 
 
 require("dotenv").config();
+console.log("MongoDB URI:", process.env.MONGODB_URI);
 
 //pripojenie k db
 mongoose
@@ -274,8 +275,23 @@ app.get("/getTags", verifyToken, async (req, res) => {
     }
 });
 
+const net = require('net');
 
-//spustenie serveru
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+const findAvailablePort = (startPort, callback) => {
+    const server = net.createServer();
+    server.unref();
+    server.on('error', () => {
+        findAvailablePort(startPort + 1, callback);
+    });
+    server.listen(startPort, () => {
+        server.close(() => callback(startPort));
+    });
+};
+
+
+findAvailablePort(3000, (port) => {
+    app.listen(port, () => {
+        console.log(`Server is running on http://localhost:${port}`);
+    });
 });
+
