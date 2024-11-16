@@ -27,7 +27,7 @@ const checkAdmin = require('./my_modules/checkAdmin');
 const checkVideo = require('./my_modules/checkVideo'); 
 
 require("dotenv").config();
-console.log("MongoDB URI:", process.env.MONGODB_URI);
+console.log("MongoDB URI:", process.env.MONGO_URI);
 
 //pripojenie k db
 mongoose
