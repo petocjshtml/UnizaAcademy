@@ -64,7 +64,7 @@ function getUserAgreementModalCode() {
 }
 
 function isEmailInUnizaFormat(email) {
-    let stringArray = ["@stud.uniza.sk","@fel.uniza.sk"];
+    let stringArray = ["@stud.uniza.sk","@fel.uniza.sk","@uniza.sk"];
     for (let str of stringArray) {
        if (email.includes(str)) {
           return true;
