@@ -304,7 +304,6 @@ function addFaculty(){
     const facultyName = document.getElementById("facultyName").value.trim(); // Odstránenie medzier na začiatku a na konci
     if (facultyName.length < 1) 
         return alert("Názov fakulty musí obsahovať aspoň jedno písmeno.");
-        
     const jsonData = { facultyName };
     const token = getUserFromLS().token;
     const endpoint_url = "/addFaculty";
@@ -322,7 +321,6 @@ function addStudyForm(){
     const studyFormName = document.getElementById("studyFormName").value.trim(); 
     if (studyFormName.length < 1) 
         return alert("Názov formy štúdia musí obsahovať aspoň jedno písmeno.");
-    
     const jsonData = { facultyId, studyFormName };
     const token = getUserFromLS().token;
     const endpoint_url = "/addStudyForm";
@@ -341,7 +339,6 @@ function addStudyYear(){
     const studyYearName = document.getElementById("studyYearName").value.trim();
     if (studyYearName.length < 1) 
         return alert("Názov študijného roku musí obsahovať aspoň jedno písmeno.");
-
     const jsonData = { facultyId, studyFormId, studyYearName };
     const token = getUserFromLS().token;
     const endpoint_url = "/addStudyYear";
@@ -361,7 +358,6 @@ function addStudyProgram(){
     const studyProgramName = document.getElementById("studyProgramName").value.trim();
     if (studyProgramName.length < 1) 
         return alert("Názov študijného programu musí obsahovať aspoň jedno písmeno.");
-
     const jsonData = { facultyId, studyFormId, studyYearId, studyProgramName };
     const token = getUserFromLS().token;
     const endpoint_url = "/addStudyProgram";
@@ -385,7 +381,6 @@ function addStudySubject(){
         return alert("Názov študijného predmetu musí obsahovať aspoň jedno písmeno.");
     if (studySubjectAbbreviation.length < 1) 
         return alert("Skratka študijného predmetu musí obsahovať aspoň jedno písmeno.");
-    
     const jsonData = { facultyId, studyFormId, studyYearId, studyProgramId, studySubjectName, studySubjectAbbreviation };
     const token = getUserFromLS().token;
     const endpoint_url = "/addStudySubject";
@@ -481,12 +476,9 @@ function disabledForDefault()
 }
 
 function setUpFilter(objectsAll, facultyIndex, studyFormIndex, studyYearIndex, studyProgramIndex) {
-    // Klonovanie pôvodných objektov
     const objects = { ...objectsAll };
-
-    // Ak nie sú žiadne fakulty, nastavíme všetky polia na prázdne
     if (objects.faculties.length === 0) {
-        showStudySubjects([]); //schovanie predmetov
+        showStudySubjects([]);
         return {
             faculties: [],
             studyForms: [],
@@ -495,13 +487,9 @@ function setUpFilter(objectsAll, facultyIndex, studyFormIndex, studyYearIndex, s
             studySubjects: []
         };
     }
-
-    // Filtrovanie študijných foriem podľa vybranej fakulty
     objects.studyForms = objects.studyForms.filter(
         (studyForm) => studyForm.facultyId === objects.faculties[facultyIndex]._id
     );
-
-    // Ak nie sú žiadne študijné formy, vynulujeme ďalšie polia
     if (objects.studyForms.length === 0) {
         objects.studyYears = [];
         objects.studyPrograms = [];
@@ -509,38 +497,28 @@ function setUpFilter(objectsAll, facultyIndex, studyFormIndex, studyYearIndex, s
         showStudySubjects([]); 
         return objects;
     }
-
-    // Filtrovanie ročníkov podľa vybranej fakulty a formy štúdia
     objects.studyYears = objects.studyYears.filter(
         (studyYear) =>
             studyYear.facultyId === objects.faculties[facultyIndex]._id &&
             studyYear.studyFormId === objects.studyForms[studyFormIndex]._id
     );
-
-    // Ak nie sú žiadne ročníky, vynulujeme ďalšie polia
     if (objects.studyYears.length === 0) {
         objects.studyPrograms = [];
         objects.studySubjects = [];
         showStudySubjects([]);
         return objects;
     }
-
-    // Filtrovanie študijných programov podľa vybranej fakulty, formy štúdia a ročníka
     objects.studyPrograms = objects.studyPrograms.filter(
         (studyProgram) =>
             studyProgram.facultyId === objects.faculties[facultyIndex]._id &&
             studyProgram.studyFormId === objects.studyForms[studyFormIndex]._id &&
             studyProgram.studyYearId === objects.studyYears[studyYearIndex]._id
     );
-
-    // Ak nie sú žiadne študijné programy, vynulujeme predmety
     if (objects.studyPrograms.length === 0) {
         objects.studySubjects = [];
         showStudySubjects([]);
         return objects;
     }
-
-    // Filtrovanie predmetov podľa vybranej fakulty, formy štúdia, ročníka a študijného programu
     objects.studySubjects = objects.studySubjects.filter(
         (studySubject) =>
             studySubject.facultyId === objects.faculties[facultyIndex]._id &&
@@ -548,14 +526,12 @@ function setUpFilter(objectsAll, facultyIndex, studyFormIndex, studyYearIndex, s
             studySubject.studyYearId === objects.studyYears[studyYearIndex]._id &&
             studySubject.studyProgramId === objects.studyPrograms[studyProgramIndex]._id
     );
-
     showStudySubjects(objects.studySubjects);
     return objects;
 }
 
 function facultyChanged()
 {
-    
     const facultySelect = document.getElementById("faculty");
     const facultySelectedIndex = facultySelect.selectedIndex;
     const filteredNewObjects = setUpFilter(filterObjectsGlobal,facultySelectedIndex,0,0,0);
@@ -623,12 +599,10 @@ function saveFilter()
     const studyFormSelect = document.getElementById("studyForm");
     const studyYearSelect = document.getElementById("studyYear");
     const studyProgramSelect = document.getElementById("studyProgram");
-
     const facultySelectedIndex = facultySelect.selectedIndex;
     const studyFormSelectedIndex = studyFormSelect.selectedIndex;
     const studyYearSelectedIndex = studyYearSelect.selectedIndex;
     const studyProgramSelectedIndex = studyProgramSelect.selectedIndex;
-
     const filter = {
         facultySelectedIndex,
         studyFormSelectedIndex,
@@ -666,7 +640,6 @@ function setUpSelectEventListeners()
 function selectObject(selectId, index) {
     const selectElement = document.getElementById(selectId);
     if (selectElement) {
-        // Skontrolujeme, či je index v platnom rozsahu
         if (index >= 0 && index < selectElement.options.length) {
             selectElement.selectedIndex = index;
         } else {
@@ -773,7 +746,6 @@ function selectOptionByIdAndValue(selectId, value) {
 }
 
 function focusModalInput(modalId) {
-    // Mapovanie modalu na príslušný input element
     const inputMap = {
         "addFacultyModal": "facultyName",
         "addStudyFormModal": "studyFormName",
@@ -782,18 +754,12 @@ function focusModalInput(modalId) {
         "addStudySubjectModal": "studySubjectName",
         "addVideotutorialModal": "videoTutorialLink",
     };
-
-    // Získanie ID vstupného elementu podľa otvoreného modalu
     const inputId = inputMap[modalId];
     const inputElement = document.getElementById(inputId);
-
-    // Ak existuje input element, nastavíme naň focus
     if (inputElement) {
         inputElement.focus();
     }
 }
-
-// input modal autofocus
 document.addEventListener("shown.bs.modal", (event) => {
     const modalId = event.target.id;
     focusModalInput(modalId);
@@ -872,12 +838,10 @@ function editStudySubject() {
     const studySubjectAbbreviation = document.getElementById("studySubjectAbbreviationToEdit").value.trim();
     const userFromLs = getUserFromLS();
     const jsonData = { studySubjectName, studySubjectAbbreviation };
-
     if (studySubjectName.length < 1) 
         return alert("Názov študijného predmetu musí obsahovať aspoň jedno písmeno.");
     if (studySubjectAbbreviation.length < 1) 
         return alert("Skratka študijného predmetu musí obsahovať aspoň jedno písmeno.");
-
     putDataLoggedIn(mongoId, jsonData, "/editStudySubject", userFromLs.token).then(response => {
         if(response.success) { showAdminVideoTutorialsPage(); } })
     .catch(error => { console.error('Error:', error); });

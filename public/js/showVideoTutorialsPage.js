@@ -80,7 +80,6 @@ var publicObjects = null;
 function loadFilteredSubjects() {
     if(getLoginStatus() === "user")
     {
-        //načíta public aj univerzitné videá
         const endpoint_url = "/getObjectsLoggedIn";
         const token = getUserFromLS().token;
         getDataLoggedIn(endpoint_url, token).then(response => {
@@ -94,7 +93,6 @@ function loadFilteredSubjects() {
     }
     else
     {
-        //načíta iba public videá
         const endpoint_url = "/getObjects";
         getData(endpoint_url).then(response => {
             const filtered = filterDataByVideoTutorials(response);
@@ -110,7 +108,6 @@ function loadFilteredSubjects() {
 function findFilterAndSetUpObjectsNoAdmin(objects)
 {
     const filter = getFilterPublic();
-    
     if(filter)
     {
         const {
@@ -119,7 +116,6 @@ function findFilterAndSetUpObjectsNoAdmin(objects)
             studyYearSelectedIndex,
             studyProgramSelectedIndex,
         } = filter;
-
         setUpObjectsNoAdmin(setUpFilterNoAdmin(objects,facultySelectedIndex,studyFormSelectedIndex,
             studyYearSelectedIndex,studyProgramSelectedIndex)); 
         selectObject("faculty", facultySelectedIndex);
@@ -156,7 +152,6 @@ function setUpSelectEventListenersPublic()
 
 function facultyChangedPublic()
 {
-    
     const facultySelect = document.getElementById("faculty");
     const facultySelectedIndex = facultySelect.selectedIndex;
     const filteredNewObjects = setUpFilterNoAdmin(publicObjects,facultySelectedIndex,0,0,0);
@@ -220,12 +215,10 @@ function saveFilterNoAdmin()
     const studyFormSelect = document.getElementById("studyForm");
     const studyYearSelect = document.getElementById("studyYear");
     const studyProgramSelect = document.getElementById("studyProgram");
-
     const facultySelectedIndex = facultySelect.selectedIndex;
     const studyFormSelectedIndex = studyFormSelect.selectedIndex;
     const studyYearSelectedIndex = studyYearSelect.selectedIndex;
     const studyProgramSelectedIndex = studyProgramSelect.selectedIndex;
-
     const filter = {
         facultySelectedIndex,
         studyFormSelectedIndex,
@@ -245,7 +238,6 @@ function filterDataByVideoTutorials(data) {
     const filteredSubjects = data.studySubjects.filter(subject =>
         subjectsWithVideos.has(subject._id)
     );
-
     const relevantFacultyIds = new Set(filteredSubjects.map(subject => subject.facultyId));
     const relevantStudyFormIds = new Set(filteredSubjects.map(subject => subject.studyFormId));
     const relevantStudyProgramIds = new Set(filteredSubjects.map(subject => subject.studyProgramId));
@@ -295,7 +287,7 @@ function setUpObjectsNoAdmin(objects)
     const studyFormSelect = document.getElementById("studyForm");
     const studyYearSelect = document.getElementById("studyYear");
     const studyProgramSelect = document.getElementById("studyProgram");
-
+    
     facultySelect.innerHTML = "";
     objects.faculties.forEach(obj => {
         const option = document.createElement("option");

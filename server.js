@@ -27,7 +27,6 @@ const checkAdmin = require('./my_modules/checkAdmin');
 const checkVideo = require('./my_modules/checkVideo'); 
 
 require("dotenv").config();
-console.log("MongoDB URI:", process.env.MONGO_URI);
 
 //pripojenie k db
 mongoose
@@ -79,7 +78,6 @@ app.get("/getAllAdmins", async (req, res) => {
     }
 });
 
-//objekty
 app.get("/getObjects", async (req, res) => {
     try {
         const response = await appController.getObjects();
@@ -89,7 +87,16 @@ app.get("/getObjects", async (req, res) => {
     }
 });
 
-//objekty pre prihlásených
+app.get("/getPublicVideotutorials", async (req, res) => {
+    try {
+        const publicVideotutorials = await videotutorialController.getAllPublicVideotutorials();
+        res.status(200).send(publicVideotutorials);
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+//private endpointy pre prihlásených s overovaním tokena pomocou auth middleware
 app.get("/getObjectsLoggedIn",verifyToken, async (req, res) => {
     try {
         const response = await appController.getObjectsLoggedIn();
@@ -99,9 +106,6 @@ app.get("/getObjectsLoggedIn",verifyToken, async (req, res) => {
     }
 });
 
-//chránené backend endpointy pomocou auth middlewaru //
-
-//zmena prezývky
 app.put("/change-nickname/:id",verifyToken, async (req, res) => {
     try {
        const response = await userController.changeNickName(req.params.id, req.body.newNickName);
@@ -111,7 +115,6 @@ app.put("/change-nickname/:id",verifyToken, async (req, res) => {
     }
 });
 
-//zmena hesla
 app.put("/change-password/:id",verifyToken, async (req, res) => {
     try {
        const response = await userController.changePassword(req.params.id, req.body.oldPassword, req.body.newPassword);
@@ -121,7 +124,16 @@ app.put("/change-password/:id",verifyToken, async (req, res) => {
     }
 });
 
-//pridanie fakulty
+app.get("/getVideotutorials",verifyToken, async (req, res) => {
+    try {
+        const videotutorials = await videotutorialController.getAllVideotutorials();
+        res.status(200).send(videotutorials);
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+});
+
+//endpointy pre administrátora
 app.post("/addFaculty",verifyToken, async (req, res) => {
     try {
         if(await checkAdmin(req, res, userController))
@@ -134,7 +146,6 @@ app.post("/addFaculty",verifyToken, async (req, res) => {
     }
 });
 
-//pridanie formy štúdia
 app.post("/addStudyForm",verifyToken, async (req, res) => {
     try {
         if(await checkAdmin(req, res, userController))
@@ -232,25 +243,6 @@ app.post("/addVideotutorial", verifyToken, async (req, res) => {
     }
 });
 
-app.get("/getVideotutorials",verifyToken, async (req, res) => {
-    try {
-        const videotutorials = await videotutorialController.getAllVideotutorials();
-        res.status(200).send(videotutorials);
-    } catch (error) {
-        res.status(400).send({ error: error.message });
-    }
-});
-
-//public endpoint bez zabezpečenia
-app.get("/getPublicVideotutorials", async (req, res) => {
-    try {
-        const publicVideotutorials = await videotutorialController.getAllPublicVideotutorials();
-        res.status(200).send(publicVideotutorials);
-    } catch (error) {
-        res.status(400).send({ error: error.message });
-    }
-});
-
 app.delete("/deleteVideotutorial/:id", verifyToken, async (req, res) => {
     try {
         if(await checkAdmin(req, res, userController)) 
@@ -275,23 +267,9 @@ app.get("/getTags", verifyToken, async (req, res) => {
     }
 });
 
-const net = require('net');
-
-const findAvailablePort = (startPort, callback) => {
-    const server = net.createServer();
-    server.unref();
-    server.on('error', () => {
-        findAvailablePort(startPort + 1, callback);
-    });
-    server.listen(startPort, () => {
-        server.close(() => callback(startPort));
-    });
-};
-
-
-findAvailablePort(3000, (port) => {
-    app.listen(port, () => {
-        console.log(`Server is running on http://localhost:${port}`);
-    });
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
+
+
 

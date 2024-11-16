@@ -13,7 +13,6 @@ function showMainPage()
     closeMenu();
     enableFooter(true);
     loadStudySubjects();
-   // setUpVideoStartTime("eLearning",1);
 }
 
 function setUpStudySubjectsToContainer(studySubjects){
@@ -59,7 +58,6 @@ function showHeader()
         <div class="navbar-nav">
           <a class="nav-link active text-white ms-3 " aria-current="page" onclick="showAboutUsPage()" href="#">O nás</a>
           <a class="nav-link active text-white ms-3 " aria-current="page" onclick="showVideoTutorialsPage()" href="#">Videotutoriály</a>
-
         </div>
         <!-- Položky napravo -->
         <div class="navbar-nav ms-auto">
@@ -112,7 +110,6 @@ function showHeaderForLoggedInUser(userFromLS)
       </div>
     </div>
   </nav>
-
   <div id="page-info" class="fs-1 text-center text-white bg-feit-orange">
     Uniza Academy
   </div>

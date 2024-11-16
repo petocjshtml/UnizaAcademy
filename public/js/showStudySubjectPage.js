@@ -32,8 +32,6 @@ function showStudySubjectVideotutorialsPublic(videotutorialsAll)
     {
         document.getElementById("noVideotutorialsMessage").style.display = "revert";
     }
-
-    //tags filter for videos if is choosen
     const filterStatus = nacitatZLocalStorage("filterStatus");
     if(filterStatus ==="byTags")
     {

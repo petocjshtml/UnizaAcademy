@@ -1,13 +1,7 @@
-/* odsadenie z vrchu kôli pevnému headeru na základe bootstrap 
-triedy fixed-top pre scrollovací obsah, aby bol počiatočný obsah viditelný */
 body {
   padding-top: 180px; 
 }
 
-/* 
-základné orámovanie tématického elementu 
-//bootstrap bg light - #f8f9fa;  
-*/
 .card {
     background-color: #143956; 
     color:white;
@@ -15,7 +9,6 @@ základné orámovanie tématického elementu
     padding:50px;
 }
 
-/* v časti hlavnej stránky, kde je zobrazených 12 obrázkov študijných oblastí */
 .icon-circle {
     width: 150px;
     height: 150px;
@@ -32,7 +25,6 @@ základné orámovanie tématického elementu
     font-weight: 500;
 }
 
-/* uniza farby */
 .bg-kmikt-blue {
     background-color: #143956;
 }
@@ -41,7 +33,6 @@ základné orámovanie tématického elementu
     background-color: #f37429;
 }
 
-/* Feit verzia pre bootstrap button danger */
 .btn.btn-danger {
     background-color: #f37429;
     border-color: #f37429;
@@ -52,7 +43,15 @@ základné orámovanie tématického elementu
     border-color: #d8641b;
 }
 
-/* tabulka bs sekcia about us */
+.delete-video-btn {
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.delete-video-btn:hover {
+    opacity: 1;
+}
+
 .table-transparent {
     background-color: transparent !important;
     border: 1px solid white;
@@ -69,7 +68,6 @@ základné orámovanie tématického elementu
     color: white !important; 
 }
 
-/* user profile dropdown - aby bol text čitateľný */
 .dropdown-menu .dropdown-item:hover,
 .dropdown-menu .dropdown-item:focus,
 .dropdown-menu .dropdown-item.active {
@@ -118,8 +116,6 @@ hr {
     opacity: 0.8;
 }
 
-/* štýly pre videokartu */
-/* Štýly pre videokartu */
 .video-card {
     background-color: #143956;
     color: #ffffff;
@@ -190,18 +186,12 @@ hr {
     color: #fff;
 }
 
-.delete-video-btn {
-    opacity: 0.8;
-    transition: opacity 0.3s;
-}
-
-.delete-video-btn:hover {
-    opacity: 1;
-}
-
 .choosenTags {
     background-color: #f37429;
     border-radius: 15px;
     padding: 15px;
     min-height: 72px;
 }
+
+
+

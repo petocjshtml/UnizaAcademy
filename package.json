@@ -2,10 +2,9 @@
   "name": "unizaacademy",
   "version": "1.0.0",
   "description": "Webstránka na výuku študentov formou videotutorialov",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-  "build": "node index.js",
-  "vercel-build": "npm run build"
+  "start": "node server.js"
   },
   "keywords": [],
   "author": "",

@@ -10,7 +10,6 @@ function showLoginFormPage()
                 <label for="email" class="form-label">Študenský email &nbsp;&nbsp;&nbsp; <span id="loginFormEmailMessage" style="color:#f37429;"></span></label>
                 <input type="email" name="email" class="form-control" id="email" minlength="3" maxlength="50" placeholder="Zadajte študenský email">
             </div>
-            
             <div class="mb-3">
                 <label for="heslo" class="form-label">Heslo &nbsp;&nbsp;&nbsp; <span id="loginFormPasswordMessage" style="color:#f37429;"></span></label>
                 <input type="password" name="password" class="form-control" minlength="8" maxlength="20" id="heslo" placeholder="Zadajte heslo">

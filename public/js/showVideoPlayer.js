@@ -39,7 +39,6 @@ function showVideoPlayer(videoTitle,videoLink,videoTime)
 }
 
 function loadVideo(videoLink) {
-    // Načítaj YouTube IFrame API, ak ešte nie je načítaný
     if (!window.YT) {
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
@@ -50,19 +49,12 @@ function loadVideo(videoLink) {
     }
 }
 
-
-
 function initializePlayer(videoLink) {
-    // Extrahovanie ID videa z odkazu
     const videoId = extractVideoId(videoLink);
-
-    // Nastavenie štýlu pre video element
     const videoPlayerElement = document.getElementById('videoPlayer');
     videoPlayerElement.style.width = '100%';
     videoPlayerElement.style.aspectRatio = '16/9';
-    videoPlayerElement.style.maxHeight = '100vh'; // Obmedzenie na maximálnu výšku obrazovky
-
-    // Inicializácia YouTube prehrávača
+    videoPlayerElement.style.maxHeight = '100vh'; 
     player = new YT.Player('videoPlayer', {
         videoId: videoId,
         width: '100%',
@@ -82,7 +74,6 @@ function initializePlayer(videoLink) {
 
 
 function onPlayerReady(event) {
-    // Nastavenie eventov pre tlačidlá Play a Pause
     const playButton = document.querySelector(".btn-danger");
     const pauseButton = document.querySelector(".btn-primary");
     const fullScreenButton = document.querySelector(".btn-success");
@@ -121,12 +112,12 @@ function stopVideoPlayer() {
 }
 
 
-function onPlayerStateChange(event) {
-    // Môžeš pridať ďalšiu logiku, ak potrebuješ reagovať na zmenu stavu prehrávača
+function onPlayerStateChange(event) 
+{
+    // zatiaľ bez pridanej logiky
 }
 
 function extractVideoId(videoLink) {
-    // Extrahuje ID videa z odkazu (napr. https://www.youtube.com/watch?v=VIDEO_ID)
     const regex = /(?:https?:\/\/)?(?:www\.)?youtu(?:\.be\/|be\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=))([^&\n?#]+)/;
     const matches = videoLink.match(regex);
     return matches && matches[1] ? matches[1] : null;

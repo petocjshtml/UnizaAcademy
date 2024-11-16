@@ -199,14 +199,11 @@ function setUpVideoModalInfo(videoInfo)
         message("studySubjectModalMessage", "Neplatný odkaz na video !");
         document.getElementById("videoInfoSection").style.display = "none";
     } else {
-        // Naplnenie informácií o videu
         document.getElementById("videoThumbnail").src = videoInfo.thumbnail;
         document.getElementById("videoTitle").textContent = videoInfo.title;
         document.getElementById("videoDuration").textContent = videoInfo.duration;
         document.getElementById("videoViews").textContent = videoInfo.views.toLocaleString();
         document.getElementById("videoLikes").textContent = videoInfo.likes.toLocaleString();
-
-        // Zobrazenie sekcie s informáciami o videu
         document.getElementById("videoInfoSection").style.display = "block";
     }  
 }
@@ -216,11 +213,7 @@ function getTextColorBasedOnBackground(backgroundColor) {
     const r = parseInt(color.substring(0, 2), 16);
     const g = parseInt(color.substring(2, 4), 16);
     const b = parseInt(color.substring(4, 6), 16);
-
-    // Výpočet jasu farby
     const brightness = (0.299 * r + 0.587 * g + 0.114 * b);
-
-    // Použijeme bielu farbu, ak je jas nízky, inak čiernu
     return brightness > 150 ? '#000000' : '#FFFFFF';
 }
 
@@ -257,7 +250,6 @@ function addTag() {
     var tagColor = document.getElementById('tagColor').value;
     const tagsContainer = document.getElementById('tagsContainer');
     
-    // Validácia - názov tagu nesmie byť prázdny
     if (!tagName) {
         alert('Zadajte názov tagu!');
         return;
@@ -268,10 +260,7 @@ function addTag() {
     {
         tagColor = rgbStringToHex(getTagColorFromExistTags(tagName));
     }
-    // Vypočítanie farby textu na základe farby pozadia
     const textColor = getTextColorBasedOnBackground(tagColor);
-
-    // Vytvorenie HTML elementu pre tag
     const tagElement = document.createElement('span');
     tagElement.className = 'badge rounded-pill me-2 mb-2';
     tagElement.style.backgroundColor = tagColor;
@@ -280,16 +269,11 @@ function addTag() {
     tagElement.style.fontSize = '14px';
     tagElement.style.cursor = 'pointer';
     tagElement.textContent = tagName;
-
-    // Pridanie funkcie na odstránenie tagu po kliknutí
     tagElement.onclick = () => {
         enableIfNameIsInExistTags(tagName);
         tagsContainer.removeChild(tagElement);
     };
-
     tagsContainer.appendChild(tagElement);
-
-    // Vyprázdnenie inputov po pridaní tagu
     document.getElementById('tagName').value = '';
     document.getElementById('tagColor').value = '#ff0000';
 }
@@ -300,7 +284,6 @@ function addVideotutorial() {
     {
         return alert("Video link is incorrect");
     }
-    // Získanie údajov o videu
     const subjectId = document.getElementById('addVideotutorialForm').getAttribute("study-subject-id");
     const videoLink = document.getElementById('videoTutorialLink').value;
     const videoTitle = document.getElementById('videoTitle').textContent;
@@ -308,11 +291,7 @@ function addVideotutorial() {
     const videoViews = document.getElementById('videoViews').textContent;
     const videoLikes = document.getElementById('videoLikes').textContent;
     const videoThumbnail = document.getElementById('videoThumbnail').src;
-
-    // Získanie statusu videa (verejné alebo univerzitné)
     const isPublic = document.getElementById('videoPublic').checked ? 'public' : 'univerzity';
-
-    // Získanie pridaných tagov
     const tagsContainer = document.getElementById('tagsContainer');
     const tags = Array.from(tagsContainer.children).map(tagElement => {
         return {
@@ -321,7 +300,6 @@ function addVideotutorial() {
         };
     });
 
-    // Vytvorenie objektu pre videotutoriál
     const videoTutorialData = {
         studySubjectId: subjectId,
         link: videoLink,
