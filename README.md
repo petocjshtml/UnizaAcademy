@@ -1,3 +1,6 @@
+## Uniza Academy
+Webová aplikácia na vzdelávanie študentov formou videotutoriálov.
+
 ## Spustenie applikácie
 
 Na spustenie applikácie je potrebné mať nainštalovaný node.js. Overiť si to môžete pomocou príkazu:
