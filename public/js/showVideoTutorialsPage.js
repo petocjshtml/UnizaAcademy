@@ -58,6 +58,7 @@ function showVideoTutorialsPage()
                 </div> 
             </form>
             <hr>
+            ${getLoginVideoInfoHtml()}
             
         </div>
 
@@ -103,6 +104,18 @@ function loadFilteredSubjects() {
             console.error('Error:', error);
         });
     } 
+}
+
+function getLoginVideoInfoHtml()
+{
+    if(getLoginStatus() === "unlogged")
+    {
+        return `<p> 
+        Pre zobrazenie všetkých videotutorialov 
+        je potrebné sa <a href='#' onclick='showLoginFormPage();' style='text-decoration:none;color:#f37429;'>
+        <b>prihlásiť.</b></a></p>`;
+    }
+    return "";
 }
 
 function findFilterAndSetUpObjectsNoAdmin(objects)
